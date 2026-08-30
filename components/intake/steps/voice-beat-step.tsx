@@ -182,7 +182,7 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
           one conversation instead of a form with a mic bolted on. */}
       <div className="flex flex-col gap-3">
         <AssistantBubble>
-          <p className="text-balance">{beat.promptText}</p>
+          <p className="text-pretty">{beat.promptText}</p>
           <button
             type="button"
             onClick={() => (speaker.isPlaying ? speaker.stop() : speaker.play())}

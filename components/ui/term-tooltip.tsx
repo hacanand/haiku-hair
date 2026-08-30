@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const TERM_DEFINITIONS: Record<string, string> = {
@@ -18,15 +21,27 @@ export const TERM_DEFINITIONS: Record<string, string> = {
 
 export function TermTooltip({ term }: { term: string }) {
   const definition = TERM_DEFINITIONS[term.toLowerCase()];
+  // Hover alone (the library's default trigger) doesn't exist on a
+  // touchscreen, so on mobile these never opened at all. Controlling
+  // open/onOpenChange lets a tap toggle it too — the library still handles
+  // outside-tap/hover/escape dismissal on top of that.
+  // (Hook must run before the early return below — rules of hooks.)
+  const [open, setOpen] = useState(false);
   if (!definition) return <>{term}</>;
 
   return (
     <TooltipProvider delay={200}>
-      <Tooltip>
-        <TooltipTrigger className="cursor-help font-semibold text-primary underline decoration-primary/40 decoration-dashed underline-offset-4 transition-colors hover:decoration-primary">
+      <Tooltip open={open} onOpenChange={setOpen}>
+        <TooltipTrigger
+          className="cursor-help font-semibold text-primary underline decoration-primary/40 decoration-dashed underline-offset-4 transition-colors hover:decoration-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            setOpen((o) => !o);
+          }}
+        >
           {term}
         </TooltipTrigger>
-        <TooltipContent side="top" align="center" className="max-w-[250px] text-balance bg-foreground text-background p-3 rounded-xl shadow-lg">
+        <TooltipContent side="top" align="center" className="max-w-[250px] text-pretty bg-foreground text-background p-3 rounded-xl shadow-lg">
           <p className="text-sm font-medium">{definition}</p>
         </TooltipContent>
       </Tooltip>

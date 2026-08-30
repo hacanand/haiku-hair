@@ -31,8 +31,8 @@ export function WelcomeStep() {
           <SkeletonImage src={IMAGE.src} alt={IMAGE.alt} fill className="object-cover" sizes="90vw" preload />
         </div>
 
-        <h1 className="mt-8 text-3xl font-semibold text-balance lg:mt-0 lg:text-4xl">{TITLE}</h1>
-        <p className="mt-3 text-balance text-muted-foreground lg:mt-4 lg:text-lg">{SUBTITLE}</p>
+        <h1 className="mt-8 text-3xl font-semibold text-pretty lg:mt-0 lg:text-4xl">{TITLE}</h1>
+        <p className="mt-3 text-pretty text-muted-foreground lg:mt-4 lg:text-lg">{SUBTITLE}</p>
 
         <button
           type="button"

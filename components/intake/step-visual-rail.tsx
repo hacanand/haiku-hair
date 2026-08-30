@@ -36,8 +36,8 @@ export function StepVisualRail({ eyebrow, title, subtitle, image, progress }: St
         </div>
         <div>
           {eyebrow && <p className="text-base font-semibold text-primary">{eyebrow}</p>}
-          <h2 className="mt-2 text-4xl font-semibold tracking-tight text-balance xl:text-5xl">{title}</h2>
-          {subtitle && <p className="mt-4 text-lg text-balance text-muted-foreground">{subtitle}</p>}
+          <h2 className="mt-2 text-4xl font-semibold tracking-tight text-pretty xl:text-5xl">{title}</h2>
+          {subtitle && <p className="mt-4 text-lg text-pretty text-muted-foreground">{subtitle}</p>}
         </div>
       </div>
 
