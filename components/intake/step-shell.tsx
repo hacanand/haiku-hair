@@ -18,6 +18,12 @@ interface StepShellProps {
   title: string;
   subtitle?: string;
   image?: { src: string; alt: string };
+  /** Content pinned right below the title, above the scrollable area — for
+   *  controls the patient must keep seeing (e.g. a Yes/No they already
+   *  tapped) while a longer revealed detail below them scrolls. Without
+   *  this, tapping Yes on a tall card could scroll the very buttons they
+   *  just used — and the question itself — out of view entirely. */
+  pinned?: ReactNode;
   children: ReactNode;
   footer: ReactNode;
   hideBack?: boolean;
@@ -31,7 +37,7 @@ interface StepShellProps {
  *  same footer CTA position — only the middle content shape changes. On a
  *  phone this is the whole screen; on a laptop it's the right-hand column
  *  of a real two-pane layout (DesktopSplit), not a scaled-down mobile view. */
-export function StepShell({ eyebrow, title, subtitle, image, children, footer, hideBack, hideProgress, onBack }: StepShellProps) {
+export function StepShell({ eyebrow, title, subtitle, image, pinned, children, footer, hideBack, hideProgress, onBack }: StepShellProps) {
   const step = useIntakeStore((s) => s.step);
   const answers = useIntakeStore((s) => s.answers);
   const storeGoBack = useIntakeStore((s) => s.goBack);
@@ -78,9 +84,11 @@ export function StepShell({ eyebrow, title, subtitle, image, children, footer, h
               <SkeletonImage preload src={image.src} alt={image.alt} fill className="object-cover" sizes="100vw" />
             </div>
           )}
-          <p className="text-sm font-semibold text-primary lg:hidden">{resolvedEyebrow}</p>
-          <h1 className="mt-1 text-2xl font-semibold text-balance lg:hidden">{title}</h1>
-          {subtitle && <p className="mt-2 text-balance text-muted-foreground lg:hidden">{subtitle}</p>}
+          <div className="sticky top-0 z-10 -mx-5 bg-background px-5 pb-3 pt-2 lg:hidden">
+            <p className="text-sm font-semibold text-primary">{resolvedEyebrow}</p>
+            <h1 className="mt-1 text-2xl font-semibold text-balance">{title}</h1>
+            {subtitle && <p className="mt-2 text-balance text-muted-foreground">{subtitle}</p>}
+          </div>
           <div className="mt-5 animate-fade-up lg:mt-0">{children}</div>
         </main>
 

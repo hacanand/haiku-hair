@@ -110,7 +110,16 @@ export function TableRowsStep({
       </div>
 
       {primaryVal === true && (
-        <div className="elevation-1 mt-5 flex flex-col divide-y divide-border/70 rounded-3xl border border-border bg-card animate-fade-up">
+        <div 
+          ref={(el) => {
+            if (el && !el.dataset.scrolled) {
+              el.dataset.scrolled = "true";
+              setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "nearest" }), 50);
+            }
+          }}
+          key={`extra-fields-${row}`}
+          className="elevation-1 mt-5 flex flex-col divide-y divide-border/70 rounded-3xl border border-border bg-card animate-fade-up"
+        >
           {extraFields.map((field) => {
             const Icon = field.icon;
             const options = field.kind === "yesno" ? (["Yes", "No"] as const) : (field.options ?? []);

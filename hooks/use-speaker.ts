@@ -46,8 +46,8 @@ export function useSpeaker(src: string, text: string) {
       window.speechSynthesis?.cancel();
       setIsPlaying(true);
       await audio.play();
-    } catch (err: any) {
-      if (err.name === "AbortError") {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") {
         // play() was interrupted by pause(), meaning stop() was called.
         // Don't fall back to speech synthesis in this case.
         setIsPlaying(false);
