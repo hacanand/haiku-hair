@@ -36,7 +36,7 @@ export function ThemeToggle() {
         // about older-user accessibility, a tiny icon-only hit area would
         // undercut that.
         "fixed z-40 flex size-10  items-center justify-center rounded-full border border-border bg-card/95 text-foreground shadow-md backdrop-blur transition-transform active:scale-90",
-        "top-[calc(0.75rem+env(safe-area-inset-top,0px))] right-[calc(0.75rem+env(safe-area-inset-right,0px))]"
+        "top-[calc(1rem+env(safe-area-inset-top,0px))] right-[calc(1rem+env(safe-area-inset-right,0px))]"
       )}
     >
       {mounted && (isDark ? <Sun className="size-5" /> : <Moon className="size-5" />)}

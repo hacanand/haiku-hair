@@ -71,7 +71,7 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
             needs real fixed positioning instead of the old shrink-0-in-a-
             capped-column trick. `lg:static lg:shrink-0` restores the
             original flex layout inside the desktop card unchanged. */}
-        <header className="safe-top fixed top-0 inset-x-0 z-20 flex items-center justify-between bg-background px-4 pt-4 pb-3 lg:static lg:shrink-0 lg:px-8 lg:pt-8">
+        <header className="safe-top fixed top-0 inset-x-0 z-20 flex h-[calc(4.5rem+env(safe-area-inset-top,0px))] items-center justify-between bg-background px-4 lg:static lg:h-auto lg:shrink-0 lg:px-8 lg:pt-8">
           {!hideBack ? (
             <Button
               variant="ghost"
@@ -80,24 +80,24 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
               // a visible border/shadow instead of a bare ghost icon that
               // has no boundary until hover — for the same reason (older
               // eyes, a thumb that isn't always precise) that mattered there.
-              className="size-10 mt-2.5 shrink-0 rounded-full border border-border bg-card/95 text-foreground shadow-md backdrop-blur active:scale-90"
+              className="size-10 shrink-0 rounded-full border border-border bg-card/95 text-foreground shadow-md backdrop-blur active:scale-90"
               onClick={goBack}
               aria-label="Go back"
             >
               <ArrowLeft className="size-5" />
             </Button>
           ) : (
-            <div className="size-11 shrink-0" />
+            <div className="size-10 shrink-0" />
           )}
         </header>
 
-        <main className="px-5 pt-[calc(5.5rem+env(safe-area-inset-top,0px))] pb-[calc(7rem+env(safe-area-inset-bottom,0px))] lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-8 lg:pt-2 lg:pb-6">
+        <main className="px-5 pt-[calc(4.5rem+env(safe-area-inset-top,0px))] pb-[calc(7rem+env(safe-area-inset-bottom,0px))] lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-8 lg:pt-2 lg:pb-6">
           {image && (
             <div className="relative mx-auto mb-4 aspect-[16/10] w-full overflow-hidden rounded-3xl bg-muted lg:hidden">
               <SkeletonImage preload src={image.src} alt={image.alt} fill className="object-cover" sizes="100vw" />
             </div>
           )}
-          <div className="sticky top-[calc(5.5rem+env(safe-area-inset-top,0px))] z-10 -mx-5 bg-background px-5 pb-3 pt-2 lg:hidden">
+          <div className="sticky top-[calc(4.5rem+env(safe-area-inset-top,0px))] z-10 -mx-5 bg-background px-5 pb-3 pt-2 lg:hidden">
             <p className="text-sm font-semibold text-primary">{resolvedEyebrow}</p>
             <h1 className="mt-1 text-2xl font-semibold text-pretty">{title}</h1>
             {subtitle && <p className="mt-2 text-pretty text-muted-foreground">{subtitle}</p>}
