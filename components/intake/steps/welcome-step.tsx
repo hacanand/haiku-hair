@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SkeletonImage } from "@/components/ui/skeleton-image";
 import { Volume2, VolumeX, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpeaker } from "@/hooks/use-speaker";
@@ -13,11 +13,11 @@ const WELCOME_TEXT =
 
 const TITLE = "Let's get you ready for your consultation.";
 const SUBTITLE = "A few questions, mostly by talking — some just a tap. Your doctor will see everything before you walk in.";
-const IMAGE = { src: "/images/receding-hairline.png", alt: "GenoRoot hair & scalp intake" };
+const IMAGE = { src: "https://ucarecdn.com/3cf6bd0c-014a-499f-9987-d3006fb0732d/-/preview/", alt: "GenoRoot hair & scalp intake" };
 
 export function WelcomeStep() {
   const goNext = useIntakeStore((s) => s.goNext);
-  const speaker = useSpeaker("/audio/welcome.wav", WELCOME_TEXT);
+  const speaker = useSpeaker("https://ucarecdn.com/a6922858-060e-41aa-b36b-c75b7fa54cd1/welcome.wav", WELCOME_TEXT);
 
   return (
     <DesktopSplit visual={<StepVisualRail title={TITLE} subtitle={SUBTITLE} image={IMAGE} />}>
@@ -28,7 +28,7 @@ export function WelcomeStep() {
         </div>
 
         <div className="relative mx-auto mt-6 aspect-[4/3] w-full max-w-xs shrink-0 overflow-hidden rounded-[2rem] bg-muted lg:hidden">
-          <Image src={IMAGE.src} alt={IMAGE.alt} fill className="object-cover" sizes="90vw" priority />
+          <SkeletonImage src={IMAGE.src} alt={IMAGE.alt} fill className="object-cover" sizes="90vw" priority />
         </div>
 
         <h1 className="mt-8 text-3xl font-semibold text-balance lg:mt-0 lg:text-4xl">{TITLE}</h1>

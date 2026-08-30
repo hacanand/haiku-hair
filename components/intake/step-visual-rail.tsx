@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SkeletonImage } from "@/components/ui/skeleton-image";
 import { Sparkles } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
@@ -26,7 +26,7 @@ export function StepVisualRail({ eyebrow, title, subtitle, image, progress }: St
       <div className="flex flex-1 flex-col justify-center gap-10 py-10 max-w-2xl mx-auto w-full">
         <div className="elevation-2 relative aspect-[4/3] w-full overflow-hidden rounded-[2.5rem] bg-muted shadow-2xl">
           {image ? (
-            <Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
+            <SkeletonImage src={image.src} alt={image.alt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-primary/5">
               <Sparkles className="size-20 text-primary/20" />

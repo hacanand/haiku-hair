@@ -10,7 +10,7 @@ const DONE_TEXT = "Bahut badhiya! Aapki saari details doctor ke paas pahunch gay
 
 export function DoneStep() {
   const reset = useIntakeStore((s) => s.reset);
-  const speaker = useSpeaker("/audio/done.wav", DONE_TEXT);
+  const speaker = useSpeaker("https://ucarecdn.com/00266f11-ad55-472b-b793-0446fb53e5fd/done.wav", DONE_TEXT);
 
   useEffect(() => {
     speaker.play();

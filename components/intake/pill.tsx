@@ -1,7 +1,7 @@
 "use client";
 
 import type { ButtonHTMLAttributes, CSSProperties } from "react";
-import Image from "next/image";
+import { SkeletonImage } from "@/components/ui/skeleton-image";
 import { Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRipple, RippleLayer } from "@/components/intake/ripple";
@@ -45,7 +45,7 @@ export function Pill({ tone = "neutral", stagger = 0, icon = "none", image, clas
       <RippleLayer ripples={ripples} />
       {image && (
         <span className="relative size-6 shrink-0 overflow-hidden rounded-full bg-black/10">
-          <Image src={image} alt="" fill className="object-cover" sizes="24px" />
+          <SkeletonImage src={image} alt="" fill className="object-cover" sizes="24px" />
         </span>
       )}
       {icon === "check" && <Check className="size-3.5 shrink-0" />}

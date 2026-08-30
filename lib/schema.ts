@@ -124,44 +124,44 @@ export const PROCEDURE_SESSIONS_LABELS: Record<string, string> = {
 // ---- Illustrations (public/images), matched per option where we have one ----
 
 export const PATTERN_IMAGES: Record<string, string> = {
-  "Receding hairline": "https://ucarecdn.com/3cf6bd0c-014a-499f-9987-d3006fb0732d/receding-hairline.png",
-  "Thinning at crown": "https://ucarecdn.com/686d91b6-1703-4c9c-847a-a2ccc3a4de4e/thinning-crown.png",
-  "Widening part line": "https://ucarecdn.com/42f714a5-a0cb-4dbd-9dd7-9f75581c028a/widening-part.png",
-  "Diffuse thinning": "https://ucarecdn.com/0b3598f2-dfbf-40f9-81e7-6b3ad62b9be9/diffuse-thinning.png",
-  "Patchy loss": "https://ucarecdn.com/edf01f15-b83e-4829-b254-563914ccfff4/patchy-loss.png",
-  "Sudden excessive shedding": "https://ucarecdn.com/70fe1814-b850-4ab3-a14f-619bd4e5459c/sudden-shedding.png",
+  "Receding hairline": "https://ucarecdn.com/3cf6bd0c-014a-499f-9987-d3006fb0732d/-/preview/",
+  "Thinning at crown": "https://ucarecdn.com/686d91b6-1703-4c9c-847a-a2ccc3a4de4e/-/preview/",
+  "Widening part line": "https://ucarecdn.com/42f714a5-a0cb-4dbd-9dd7-9f75581c028a/-/preview/",
+  "Diffuse thinning": "https://ucarecdn.com/0b3598f2-dfbf-40f9-81e7-6b3ad62b9be9/-/preview/",
+  "Patchy loss": "https://ucarecdn.com/edf01f15-b83e-4829-b254-563914ccfff4/-/preview/",
+  "Sudden excessive shedding": "https://ucarecdn.com/70fe1814-b850-4ab3-a14f-619bd4e5459c/-/preview/",
 };
 
 export const CONDITION_IMAGES: Record<string, string> = {
-  "PCOS/PCOD": "https://ucarecdn.com/2734b163-0a77-4c00-a80a-e39c10f16e56/pcos-pcod.png",
-  "Thyroid disorder": "https://ucarecdn.com/5dd8a6f1-33e5-4cf3-a103-1e195bb2e8a7/thyroid-hormonal.png",
-  Diabetes: "https://ucarecdn.com/8f5aa24f-ac01-46c2-9723-3255f4ea7222/diabetes-blood-sugar.png",
-  "Autoimmune disease": "https://ucarecdn.com/39d1de0e-3652-41b4-8661-5f04a0d5c69b/autoimmune-condition.png",
-  Anemia: "https://ucarecdn.com/dba75c7f-c1f6-4208-bd66-0537bf751ea8/anemia-low-iron.png",
+  "PCOS/PCOD": "https://ucarecdn.com/2734b163-0a77-4c00-a80a-e39c10f16e56/-/preview/",
+  "Thyroid disorder": "https://ucarecdn.com/5dd8a6f1-33e5-4cf3-a103-1e195bb2e8a7/-/preview/",
+  Diabetes: "https://ucarecdn.com/8f5aa24f-ac01-46c2-9723-3255f4ea7222/-/preview/",
+  "Autoimmune disease": "https://ucarecdn.com/39d1de0e-3652-41b4-8661-5f04a0d5c69b/-/preview/",
+  Anemia: "https://ucarecdn.com/dba75c7f-c1f6-4208-bd66-0537bf751ea8/-/preview/",
 };
 
 export const PAST6_IMAGES: Record<string, string> = {
-  "Crash dieting or major weight loss": "https://ucarecdn.com/1f272ced-d464-4732-ae18-65990c44d569/rapid-weight-loss.png",
-  "High stress or emotional trauma": "https://ucarecdn.com/8bf44ae9-d18e-401a-b4e3-45d99769a897/severe-stress.png",
-  "Fever with illness (COVID, Dengue, Typhoid)": "https://ucarecdn.com/dd0a8876-e962-4f3b-8e6e-706b611ab6c3/viral-illness.png",
-  "Recent surgery": "https://ucarecdn.com/bcec9bbd-1b6c-4f21-a63e-c8c771f156aa/recent-surgery.png",
-  "Change in location/water/air quality": "https://ucarecdn.com/2fe83ab7-8881-4388-b223-32a12178ef0b/hard-water-relocation.png",
+  "Crash dieting or major weight loss": "https://ucarecdn.com/1f272ced-d464-4732-ae18-65990c44d569/-/preview/",
+  "High stress or emotional trauma": "https://ucarecdn.com/8bf44ae9-d18e-401a-b4e3-45d99769a897/-/preview/",
+  "Fever with illness (COVID, Dengue, Typhoid)": "https://ucarecdn.com/dd0a8876-e962-4f3b-8e6e-706b611ab6c3/-/preview/",
+  "Recent surgery": "https://ucarecdn.com/bcec9bbd-1b6c-4f21-a63e-c8c771f156aa/-/preview/",
+  "Change in location/water/air quality": "https://ucarecdn.com/2fe83ab7-8881-4388-b223-32a12178ef0b/-/preview/",
 };
 
 export const SAMPLE_IMAGES: Record<string, string> = {
-  Saliva: "https://ucarecdn.com/05bb4409-d0a2-420c-b613-6ee948b0fad9/sample-saliva.png",
-  Blood: "https://ucarecdn.com/ebdc23bf-2d03-49c3-879d-9d4009c69ef6/sample-blood.png",
-  Either: "https://ucarecdn.com/07898465-acdf-4270-9842-ee3471eaa87a/sample-either.png",
+  Saliva: "https://ucarecdn.com/05bb4409-d0a2-420c-b613-6ee948b0fad9/-/preview/",
+  Blood: "https://ucarecdn.com/ebdc23bf-2d03-49c3-879d-9d4009c69ef6/-/preview/",
+  Either: "https://ucarecdn.com/07898465-acdf-4270-9842-ee3471eaa87a/-/preview/",
 };
 
 export const MISC_IMAGES = {
-  menstrual: "https://ucarecdn.com/7eec36aa-454a-4dfa-b7b5-1b104ad4ff93/menstrual-pattern.png",
-  pregnancy: "https://ucarecdn.com/aecdca15-9283-428a-85ca-a96a8d622d0c/pregnancy-postpartum.png",
-  acne: "https://ucarecdn.com/cf0d1fe2-2d9f-4576-8e4c-c780c7dbc416/adult-acne-oily-scalp.png",
-  facialHair: "https://ucarecdn.com/d4f773f3-e7e7-4ee9-9251-118c6e2a4c80/excessive-facial-body-hair.png",
-  healthIntro: "https://ucarecdn.com/91911fbf-e5ff-463f-9cc7-d513ca513eee/general-health-check.png",
-  hairWash: "https://ucarecdn.com/2b172c0b-79e7-4ab9-b508-0c42ae1145c4/hair-wash-scalp-care.png",
-  shelf: "https://ucarecdn.com/9af152f7-6662-4ecd-8859-aaef67bf43fb/hair-care-shelf.png",
+  menstrual: "https://ucarecdn.com/7eec36aa-454a-4dfa-b7b5-1b104ad4ff93/-/preview/",
+  pregnancy: "https://ucarecdn.com/aecdca15-9283-428a-85ca-a96a8d622d0c/-/preview/",
+  acne: "https://ucarecdn.com/cf0d1fe2-2d9f-4576-8e4c-c780c7dbc416/-/preview/",
+  facialHair: "https://ucarecdn.com/d4f773f3-e7e7-4ee9-9251-118c6e2a4c80/-/preview/",
+  healthIntro: "https://ucarecdn.com/91911fbf-e5ff-463f-9cc7-d513ca513eee/-/preview/",
+  hairWash: "https://ucarecdn.com/2b172c0b-79e7-4ab9-b508-0c42ae1145c4/-/preview/",
+  shelf: "https://ucarecdn.com/9af152f7-6662-4ecd-8859-aaef67bf43fb/-/preview/",
 } as const;
 
 // ---- Answer shape ----
