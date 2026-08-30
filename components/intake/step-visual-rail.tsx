@@ -1,8 +1,8 @@
 "use client";
 
 import { SkeletonImage } from "@/components/ui/skeleton-image";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { Sparkles } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 
 interface StepVisualRailProps {
   eyebrow?: string;
@@ -41,10 +41,10 @@ export function StepVisualRail({ eyebrow, title, subtitle, image, progress }: St
       </div>
 
       {progress && (
-        <div className="flex items-center gap-3">
-          <Progress value={Math.round((progress.index / progress.total) * 100)} className="max-w-[220px]" />
-          <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
-            {progress.index} / {progress.total}
+        <div className="flex items-center gap-3 opacity-50 transition-opacity hover:opacity-100">
+          <CircularProgress value={Math.round((progress.index / progress.total) * 100)} size={20} strokeWidth={3} />
+          <span className="text-sm font-semibold tabular-nums text-primary/70">
+            {String(progress.index).padStart(2, '0')} / {String(progress.total).padStart(2, '0')}
           </span>
         </div>
       )}

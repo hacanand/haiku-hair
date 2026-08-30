@@ -5,7 +5,7 @@ import { SkeletonImage } from "@/components/ui/skeleton-image";
 import { ArrowLeft } from "lucide-react";
 import { useIntakeStore } from "@/lib/store";
 import { progressFor, STEP_CATEGORY } from "@/lib/steps";
-import { Progress } from "@/components/ui/progress";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { Button } from "@/components/ui/button";
 import { DesktopSplit } from "@/components/intake/desktop-split";
 import { StepVisualRail } from "@/components/intake/step-visual-rail";
@@ -62,12 +62,12 @@ export function StepShell({ eyebrow, title, subtitle, image, children, footer, h
           )}
           <div className="flex-1 lg:hidden">
             {!hideProgress && (
-              <>
-                <Progress value={Math.round((progress.index / progress.total) * 100)} />
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  Step {progress.index} of {progress.total}
-                </p>
-              </>
+              <div className="flex items-center gap-2 rounded-full border bg-card px-3 py-1.5 elevation-1">
+                <CircularProgress value={Math.round((progress.index / progress.total) * 100)} size={16} strokeWidth={2.5} />
+                <span className="text-xs font-semibold tabular-nums text-muted-foreground">
+                  {String(progress.index).padStart(2, '0')} / {String(progress.total).padStart(2, '0')}
+                </span>
+              </div>
             )}
           </div>
         </header>
