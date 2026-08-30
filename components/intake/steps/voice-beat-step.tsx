@@ -221,7 +221,10 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
                 </>
               ) : (
                 <button
-                  onClick={recorder.start}
+                  onClick={() => {
+                    if (speaker.isPlaying) speaker.stop();
+                    recorder.start();
+                  }}
                   disabled={recorder.status === "requesting"}
                   className="elevation-3 flex size-20 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform active:scale-95 disabled:opacity-60"
                   aria-label="Start recording"

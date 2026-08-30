@@ -24,7 +24,8 @@ interface MultiSelectSheetProps {
   options: readonly string[];
   optionImages?: Record<string, string>;
   selected: string[];
-  onConfirm: (next: string[]) => void;
+  exclusiveOption?: string;
+  onConfirm: (selected: string[]) => void;
 }
 
 /** The bottom-sheet editor for multi-select chips with 5+ options — "add
@@ -40,6 +41,7 @@ export function MultiSelectSheet({
   options,
   optionImages,
   selected,
+  exclusiveOption,
   onConfirm,
 }: MultiSelectSheetProps) {
   const container = useFrameContainer();
@@ -54,6 +56,19 @@ export function MultiSelectSheet({
   }
 
   function toggle(option: string) {
+    if (exclusiveOption) {
+      if (option === exclusiveOption) {
+        setDraft((prev) => (prev.includes(option) ? [] : [option]));
+        return;
+      }
+      setDraft((prev) => {
+        const withoutExclusive = prev.filter((o) => o !== exclusiveOption);
+        return withoutExclusive.includes(option)
+          ? withoutExclusive.filter((o) => o !== option)
+          : [...withoutExclusive, option];
+      });
+      return;
+    }
     setDraft((prev) => (prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option]));
   }
 

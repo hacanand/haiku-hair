@@ -75,7 +75,7 @@ export function StepShell({ eyebrow, title, subtitle, image, children, footer, h
         <main className="min-h-0 flex-1 overflow-y-auto px-5 pb-6 lg:px-8 lg:pt-2">
           {image && (
             <div className="relative mx-auto mb-4 aspect-[16/10] w-full overflow-hidden rounded-3xl bg-muted lg:hidden">
-              <SkeletonImage src={image.src} alt={image.alt} fill className="object-cover" sizes="100vw" />
+              <SkeletonImage preload src={image.src} alt={image.alt} fill className="object-cover" sizes="100vw" />
             </div>
           )}
           <p className="text-sm font-semibold text-primary lg:hidden">{resolvedEyebrow}</p>

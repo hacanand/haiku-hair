@@ -28,7 +28,7 @@ export function WelcomeStep() {
         </div>
 
         <div className="relative mx-auto mt-6 aspect-[4/3] w-full max-w-xs shrink-0 overflow-hidden rounded-[2rem] bg-muted lg:hidden">
-          <SkeletonImage src={IMAGE.src} alt={IMAGE.alt} fill className="object-cover" sizes="90vw" priority />
+          <SkeletonImage src={IMAGE.src} alt={IMAGE.alt} fill className="object-cover" sizes="90vw" preload />
         </div>
 
         <h1 className="mt-8 text-3xl font-semibold text-balance lg:mt-0 lg:text-4xl">{TITLE}</h1>

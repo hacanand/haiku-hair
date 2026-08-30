@@ -160,6 +160,7 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
           options={options}
           optionImages={field.optionImages}
           selected={arr}
+          exclusiveOption={options.find(o => o === "None" || o === "No known family history" || o === "None of the above")}
           onConfirm={(next) => onChange(next)}
         />
       </div>
