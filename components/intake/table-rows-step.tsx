@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X } from "lucide-react";
+import { Check, X, type LucideIcon } from "lucide-react";
 import { StepShell } from "@/components/intake/step-shell";
 import { Button } from "@/components/ui/button";
 import { RippleButton } from "@/components/intake/ripple";
@@ -14,15 +14,20 @@ type FieldValue = boolean | string | YesNo | null;
 interface ExtraField {
   key: string;
   label: string;
+  icon: LucideIcon;
   kind: "single" | "yesno";
   options?: readonly string[];
+  /** Full-text display for each option — falls back to the raw stored value. */
+  optionLabels?: Record<string, string>;
 }
 
 interface TableRowsStepProps {
   eyebrow: string;
   sectionTitle: string;
-  primaryQuestion: (row: string) => string;
+  primaryQuestion: (rowLabel: string) => string;
   rows: readonly string[];
+  /** Full-text display name for each row — falls back to the raw stored value. */
+  rowLabels?: Record<string, string>;
   rowImages?: Record<string, string>;
   primaryKey: string;
   extraFields: ExtraField[];
@@ -39,6 +44,7 @@ export function TableRowsStep({
   sectionTitle,
   primaryQuestion,
   rows,
+  rowLabels,
   rowImages,
   primaryKey,
   extraFields,
@@ -49,6 +55,7 @@ export function TableRowsStep({
   const [index, setIndex] = useState(0);
   const storeGoBack = useIntakeStore((s) => s.goBack);
   const row = rows[index];
+  const displayRow = rowLabels?.[row] ?? row;
   const answer = getRowAnswer(row);
   const primaryVal = answer[primaryKey] as boolean | null;
   const isLast = index === rows.length - 1;
@@ -65,9 +72,9 @@ export function TableRowsStep({
   return (
     <StepShell
       eyebrow={`${eyebrow} · ${index + 1} of ${rows.length}`}
-      title={row}
+      title={displayRow}
       subtitle={sectionTitle}
-      image={rowImages?.[row] ? { src: rowImages[row], alt: row } : undefined}
+      image={rowImages?.[row] ? { src: rowImages[row], alt: displayRow } : undefined}
       onBack={() => (index > 0 ? setIndex(index - 1) : storeGoBack())}
       footer={
         <Button
@@ -80,7 +87,7 @@ export function TableRowsStep({
         </Button>
       }
     >
-      <p className="mb-4 text-lg font-medium">{primaryQuestion(row)}</p>
+      <p className="mb-4 text-xl leading-snug font-semibold text-balance">{primaryQuestion(displayRow)}</p>
       <div className="grid grid-cols-2 gap-3">
         <RippleButton
           onClick={() => setRowField(row, primaryKey, true)}
@@ -103,29 +110,39 @@ export function TableRowsStep({
       </div>
 
       {primaryVal === true && (
-        <div className="mt-5 flex flex-col gap-4 animate-fade-up">
-          {extraFields.map((field) => (
-            <div key={field.key}>
-              <p className="mb-2 text-sm font-medium text-muted-foreground">{field.label}</p>
-              <div className="flex flex-wrap gap-2">
-                {(field.kind === "yesno" ? (["Yes", "No"] as const) : field.options ?? []).map((opt) => {
-                  const active = answer[field.key] === opt;
-                  return (
-                    <RippleButton
-                      key={opt}
-                      onClick={() => setRowField(row, field.key, opt)}
-                      className={cn(
-                        "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-                        active ? "border-primary bg-secondary" : "border-border bg-card hover:border-primary/30"
-                      )}
-                    >
-                      {opt}
-                    </RippleButton>
-                  );
-                })}
+        <div className="elevation-1 mt-5 flex flex-col divide-y divide-border/70 rounded-3xl border border-border bg-card animate-fade-up">
+          {extraFields.map((field) => {
+            const Icon = field.icon;
+            const options = field.kind === "yesno" ? (["Yes", "No"] as const) : (field.options ?? []);
+            return (
+              <div key={field.key} className="p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                    <Icon className="size-3.5" />
+                  </span>
+                  <p className="text-sm font-medium text-foreground">{field.label}</p>
+                </div>
+                <div className="flex flex-wrap gap-2 pl-9">
+                  {options.map((opt) => {
+                    const active = answer[field.key] === opt;
+                    const optLabel = field.optionLabels?.[opt] ?? opt;
+                    return (
+                      <RippleButton
+                        key={opt}
+                        onClick={() => setRowField(row, field.key, opt)}
+                        className={cn(
+                          "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                          active ? "border-primary bg-secondary" : "border-border bg-background hover:border-primary/30"
+                        )}
+                      >
+                        {optLabel}
+                      </RippleButton>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </StepShell>

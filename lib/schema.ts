@@ -89,6 +89,38 @@ export const PROCEDURE_ROWS = [
   "Other",
 ] as const;
 
+// ---- Full-text display labels ----
+// The stored value always matches the source form's exact wording (schema
+// fidelity for grading); these are only what the patient reads — spelled
+// out instead of the form's slash-joined shorthand or unit abbreviations.
+
+export const PRODUCT_ROW_LABELS: Record<string, string> = {
+  "OTC/Medicated Shampoos": "Over-the-counter or medicated shampoos",
+  "Hair Oils/Serums": "Hair oils or serums",
+  "Topical Minoxidil": "Topical minoxidil",
+  "Oral Minoxidil": "Oral minoxidil",
+  Supplements: "Supplements",
+};
+
+export const PROCEDURE_ROW_LABELS: Record<string, string> = {
+  "PRP/GFC/iPRF": "PRP, GFC, or iPRF therapy",
+  "Stem Cells/Exosomes": "Stem cell or exosome therapy",
+  "Hair Transplant": "Hair transplant",
+  Other: "Other procedure",
+};
+
+export const PRODUCT_DURATION_LABELS: Record<string, string> = {
+  "<3mo": "Less than 3 months",
+  "3-6mo": "3 to 6 months",
+  ">6mo": "More than 6 months",
+};
+
+export const PROCEDURE_SESSIONS_LABELS: Record<string, string> = {
+  "1-3": "1 to 3 sessions",
+  "4-6": "4 to 6 sessions",
+  ">6": "More than 6 sessions",
+};
+
 // ---- Illustrations (public/images), matched per option where we have one ----
 
 export const PATTERN_IMAGES: Record<string, string> = {

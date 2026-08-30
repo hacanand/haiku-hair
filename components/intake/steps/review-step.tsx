@@ -7,7 +7,15 @@ import { StepShell } from "@/components/intake/step-shell";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIntakeStore } from "@/lib/store";
-import { buildOutput, PRODUCT_ROWS, PROCEDURE_ROWS } from "@/lib/schema";
+import {
+  buildOutput,
+  PRODUCT_ROWS,
+  PROCEDURE_ROWS,
+  PRODUCT_ROW_LABELS,
+  PROCEDURE_ROW_LABELS,
+  PRODUCT_DURATION_LABELS,
+  PROCEDURE_SESSIONS_LABELS,
+} from "@/lib/schema";
 import { validateFinalAnswers } from "@/lib/validation";
 import type { StepId } from "@/lib/steps";
 
@@ -139,22 +147,24 @@ export function ReviewStep() {
           <SectionCard title="Hair care & treatments">
             {PRODUCT_ROWS.map((row) => {
               const a = answers.products[row];
+              const duration = a.duration ? (PRODUCT_DURATION_LABELS[a.duration] ?? a.duration) : "?";
               return (
                 <ReviewRow
                   key={row}
-                  label={row}
-                  value={a.used ? `Used · ${a.duration ?? "?"} · helped: ${a.helped ?? "?"}` : a.used === false ? "Not used" : null}
+                  label={PRODUCT_ROW_LABELS[row] ?? row}
+                  value={a.used ? `Used · ${duration} · helped: ${a.helped ?? "?"}` : a.used === false ? "Not used" : null}
                   onEdit={edit("products")}
                 />
               );
             })}
             {PROCEDURE_ROWS.map((row) => {
               const a = answers.procedures[row];
+              const sessions = a.sessions ? (PROCEDURE_SESSIONS_LABELS[a.sessions] ?? a.sessions) : "?";
               return (
                 <ReviewRow
                   key={row}
-                  label={row}
-                  value={a.done ? `Done · ${a.sessions ?? "?"} sessions · helped: ${a.helped ?? "?"}` : a.done === false ? "Not done" : null}
+                  label={PROCEDURE_ROW_LABELS[row] ?? row}
+                  value={a.done ? `Done · ${sessions} · helped: ${a.helped ?? "?"}` : a.done === false ? "Not done" : null}
                   onEdit={edit("procedures")}
                 />
               );

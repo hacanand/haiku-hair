@@ -18,15 +18,15 @@ export function DoneStep() {
   }, []);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center px-6 text-center">
-      <div className="flex size-20 items-center justify-center rounded-full bg-success text-success-foreground">
-        <PartyPopper className="size-9" />
+    <div className="flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,color-mix(in_oklch,var(--success)_10%,var(--background)),var(--background)_65%)] px-6 text-center">
+      <div className="flex size-20 items-center justify-center rounded-full bg-success text-success-foreground lg:size-24">
+        <PartyPopper className="size-9 lg:size-11" />
       </div>
-      <h1 className="mt-6 text-3xl font-semibold text-balance">Aapka intake ho gaya!</h1>
-      <p className="mt-3 max-w-sm text-balance text-muted-foreground">
+      <h1 className="mt-6 text-3xl font-semibold text-balance lg:mt-8 lg:text-5xl">Aapka intake ho gaya!</h1>
+      <p className="mt-3 max-w-sm text-balance text-muted-foreground lg:mt-4 lg:max-w-lg lg:text-lg">
         Your doctor will have your complete history before you sit down — no repeating yourself in the room.
       </p>
-      <Button variant="outline" className="mt-8 h-11 rounded-full" onClick={reset}>
+      <Button variant="outline" className="mt-8 h-11 rounded-full lg:h-12 lg:px-6 lg:text-base" onClick={reset}>
         Start a new patient
       </Button>
     </div>

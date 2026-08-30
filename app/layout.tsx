@@ -26,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", "font-sans")}>
       <body className="min-h-full flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} forcedTheme="light">
           <TooltipProvider delay={200}>
             {children}
             <Toaster position="top-center" />

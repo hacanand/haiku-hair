@@ -43,9 +43,16 @@ export function useSpeaker(src: string, text: string) {
     const audio = audioRef.current;
     if (!audio) return;
     try {
+      window.speechSynthesis?.cancel();
       setIsPlaying(true);
       await audio.play();
-    } catch {
+    } catch (err: any) {
+      if (err.name === "AbortError") {
+        // play() was interrupted by pause(), meaning stop() was called.
+        // Don't fall back to speech synthesis in this case.
+        setIsPlaying(false);
+        return;
+      }
       speakFallback();
     }
   }, [speakFallback]);
