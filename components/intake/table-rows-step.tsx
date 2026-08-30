@@ -5,6 +5,7 @@ import { Check, X, type LucideIcon } from "lucide-react";
 import { StepShell } from "@/components/intake/step-shell";
 import { Button } from "@/components/ui/button";
 import { RippleButton } from "@/components/intake/ripple";
+import { highlightTerms } from "@/components/ui/term-tooltip";
 import { cn } from "@/lib/utils";
 import { useIntakeStore } from "@/lib/store";
 import type { YesNo } from "@/lib/schema";
@@ -72,8 +73,11 @@ export function TableRowsStep({
   return (
     <StepShell
       eyebrow={`${eyebrow} · ${index + 1} of ${rows.length}`}
-      title={displayRow}
-      subtitle={sectionTitle}
+      title={
+        <span>
+          Have you ever used {highlightTerms(displayRow.toLowerCase())}?
+        </span>
+      }
       image={rowImages?.[row] ? { src: rowImages[row], alt: displayRow } : undefined}
       onBack={() => (index > 0 ? setIndex(index - 1) : storeGoBack())}
       footer={
@@ -87,13 +91,17 @@ export function TableRowsStep({
         </Button>
       }
     >
-      <p className="mb-4 text-xl leading-snug font-semibold text-balance">{primaryQuestion(displayRow)}</p>
       <div className="grid grid-cols-2 gap-3">
         <RippleButton
-          onClick={() => setRowField(row, primaryKey, true)}
+          onClick={() => {
+            const wasNull = primaryVal == null;
+            setRowField(row, primaryKey, true);
+          }}
           className={cn(
-            "flex h-20 flex-col items-center justify-center gap-1 rounded-3xl border text-base font-semibold transition-colors",
-            primaryVal === true ? "border-primary bg-secondary elevation-1" : "border-border bg-card hover:border-primary/40"
+            "flex h-20 flex-col items-center justify-center gap-1.5 rounded-[2rem] text-lg font-semibold transition-all duration-300",
+            primaryVal === true 
+              ? "bg-primary text-primary-foreground shadow-[0_8px_30px_rgb(0,0,0,0.12)] shadow-primary/30 scale-[1.02]" 
+              : "bg-muted/50 text-foreground hover:bg-muted"
           )}
         >
           <Check className="size-5" /> Yes
@@ -101,8 +109,10 @@ export function TableRowsStep({
         <RippleButton
           onClick={() => setRowField(row, primaryKey, false)}
           className={cn(
-            "flex h-20 flex-col items-center justify-center gap-1 rounded-3xl border text-base font-semibold transition-colors",
-            primaryVal === false ? "border-primary bg-secondary elevation-1" : "border-border bg-card hover:border-primary/40"
+            "flex h-20 flex-col items-center justify-center gap-1.5 rounded-[2rem] text-lg font-semibold transition-all duration-300",
+            primaryVal === false 
+              ? "bg-primary text-primary-foreground shadow-[0_8px_30px_rgb(0,0,0,0.12)] shadow-primary/30 scale-[1.02]" 
+              : "bg-muted/50 text-foreground hover:bg-muted"
           )}
         >
           <X className="size-5" /> No
@@ -118,18 +128,18 @@ export function TableRowsStep({
             }
           }}
           key={`extra-fields-${row}`}
-          className="elevation-1 mt-5 flex flex-col divide-y divide-border/70 rounded-3xl border border-border bg-card animate-fade-up"
+          className="mt-6 flex flex-col gap-6 rounded-[2rem] bg-card/60 p-6 backdrop-blur-xl animate-fade-up shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20"
         >
           {extraFields.map((field) => {
             const Icon = field.icon;
             const options = field.kind === "yesno" ? (["Yes", "No"] as const) : (field.options ?? []);
             return (
-              <div key={field.key} className="p-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+              <div key={field.key} className="flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Icon className="size-3.5" />
                   </span>
-                  <p className="text-sm font-medium text-foreground">{field.label}</p>
+                  <p className="text-sm font-semibold text-foreground">{field.label}</p>
                 </div>
                 <div className="flex flex-wrap gap-2 pl-9">
                   {options.map((opt) => {
@@ -140,8 +150,10 @@ export function TableRowsStep({
                         key={opt}
                         onClick={() => setRowField(row, field.key, opt)}
                         className={cn(
-                          "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-                          active ? "border-primary bg-secondary" : "border-border bg-background hover:border-primary/30"
+                          "rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300",
+                          active 
+                            ? "bg-primary text-primary-foreground shadow-md scale-[1.02]" 
+                            : "bg-background/80 hover:bg-background text-foreground shadow-sm"
                         )}
                       >
                         {optLabel}

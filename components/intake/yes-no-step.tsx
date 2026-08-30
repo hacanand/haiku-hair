@@ -48,8 +48,10 @@ function YesNoOption({ label, icon, active, onClick }: { label: string; icon: Re
       onClick={onClick}
       onPointerDown={onPointerDown}
       className={cn(
-        "relative flex h-24 flex-col items-center justify-center gap-1.5 overflow-hidden rounded-3xl border text-lg font-semibold transition-colors",
-        active ? "border-primary bg-secondary text-secondary-foreground elevation-1" : "border-border bg-card hover:border-primary/40"
+        "relative flex h-24 flex-col items-center justify-center gap-1.5 overflow-hidden rounded-[2rem] text-lg font-semibold transition-all duration-300",
+        active 
+          ? "bg-primary text-primary-foreground shadow-[0_8px_30px_rgb(0,0,0,0.12)] shadow-primary/30 scale-[1.02]" 
+          : "bg-muted/50 text-foreground hover:bg-muted"
       )}
     >
       <RippleLayer ripples={ripples} />

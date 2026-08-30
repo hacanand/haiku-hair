@@ -14,9 +14,9 @@ interface StepShellProps {
   /** Plain-language category shown above the title. Defaults to the current
    *  step's entry in STEP_CATEGORY — pass this only to override that (e.g.
    *  a per-row progress label), never to surface an internal id. */
-  eyebrow?: string;
-  title: string;
-  subtitle?: string;
+  eyebrow?: React.ReactNode;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
   image?: { src: string; alt: string };
   /** Content pinned right below the title, above the scrollable area — for
    *  controls the patient must keep seeing (e.g. a Yes/No they already
@@ -57,8 +57,16 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
         />
       }
     >
-      <div className="flex h-full w-full flex-col overflow-hidden">
-        <header className="safe-top flex shrink-0 items-center gap-3 bg-background px-4 pt-4 pb-3 lg:px-8 lg:pt-8">
+      <div className="relative flex h-full w-full flex-col overflow-hidden">
+        {!hideProgress && progress && (
+          <div className="absolute left-0 top-0 z-50 h-[3px] w-full bg-primary/10 lg:hidden">
+            <div
+              className="h-full bg-primary transition-[width] duration-500 ease-out"
+              style={{ width: `${(progress.index / progress.total) * 100}%` }}
+            />
+          </div>
+        )}
+        <header className="safe-top flex shrink-0 items-center justify-between bg-background px-4 pt-4 pb-3 lg:px-8 lg:pt-8">
           {!hideBack ? (
             <Button variant="ghost" size="icon" className="shrink-0 rounded-full" onClick={goBack} aria-label="Go back">
               <ArrowLeft className="size-5" />
@@ -66,16 +74,6 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
           ) : (
             <div className="size-9 shrink-0" />
           )}
-          <div className="flex-1 lg:hidden">
-            {!hideProgress && (
-              <div className="flex items-center gap-2 rounded-full border bg-card px-3 py-1.5 elevation-1">
-                <CircularProgress value={Math.round((progress.index / progress.total) * 100)} size={16} strokeWidth={2.5} />
-                <span className="text-xs font-semibold tabular-nums text-muted-foreground">
-                  {String(progress.index).padStart(2, '0')} / {String(progress.total).padStart(2, '0')}
-                </span>
-              </div>
-            )}
-          </div>
         </header>
 
         <main className="min-h-0 flex-1 overflow-y-auto px-5 pb-6 lg:px-8 lg:pt-2">

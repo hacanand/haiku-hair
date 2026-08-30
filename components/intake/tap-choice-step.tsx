@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { StepShell } from "@/components/intake/step-shell";
 import { OptionImage } from "@/components/intake/option-image";
 import { useRipple, RippleLayer } from "@/components/intake/ripple";
+import { highlightTerms } from "@/components/ui/term-tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -123,7 +124,7 @@ function ImageOptionTile({
         active ? "border-primary elevation-2" : "border-border elevation-1 hover:border-primary/40"
       )}
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-muted">
+      <div className="relative aspect-square w-full overflow-hidden bg-muted rounded-t-3xl">
         <OptionImage src={image} alt={option} sizes="(min-width: 1024px) 190px, 45vw" />
         <RippleLayer ripples={ripples} />
         {active && (
@@ -132,7 +133,7 @@ function ImageOptionTile({
           </span>
         )}
       </div>
-      <span className="px-3 py-2.5 text-sm font-medium">{option}</span>
+      <span className="px-4 py-3 text-sm font-medium">{highlightTerms(option)}</span>
     </button>
   );
 }
@@ -145,20 +146,22 @@ function TextOptionRow({ option, active, onClick }: { option: string; active: bo
       onClick={onClick}
       onPointerDown={onPointerDown}
       className={cn(
-        "relative flex min-h-14 items-center justify-between gap-3 overflow-hidden rounded-2xl border bg-card px-4 py-3 text-left text-base font-medium transition-colors",
-        active ? "border-primary bg-secondary elevation-1" : "border-border hover:border-primary/30"
+        "relative flex w-full items-center justify-between overflow-hidden rounded-full border px-5 py-3.5 transition-all duration-300",
+        active 
+          ? "border-primary bg-primary text-primary-foreground shadow-[0_4px_20px_rgb(0,0,0,0.12)] shadow-primary/30 scale-[1.01]" 
+          : "border-border bg-card hover:border-primary/40 text-foreground"
       )}
     >
       <RippleLayer ripples={ripples} />
-      {option}
-      <span
+      <span className="text-left text-base font-medium">{highlightTerms(option)}</span>
+      <div
         className={cn(
-          "flex size-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-          active ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30"
+          "flex size-6 shrink-0 items-center justify-center rounded-full border transition-colors",
+          active ? "border-primary-foreground bg-primary-foreground text-primary" : "border-muted-foreground/30"
         )}
       >
         {active && <Check className="size-4" />}
-      </span>
+      </div>
     </button>
   );
 }

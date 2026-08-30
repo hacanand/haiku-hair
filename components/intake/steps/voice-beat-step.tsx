@@ -161,31 +161,36 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
         {phase === "confirm" && (
           <>
             {transcript && <PatientBubble>{transcript}</PatientBubble>}
-            <div className="flex flex-wrap gap-2 pl-10">
-              {isBeatD ? (
-                <PastTreatmentChip
-                  status={answers.past_treatment_side_effects}
-                  describe={answers.describe}
-                  onChange={(status, describe) => {
-                    setField("past_treatment_side_effects", status);
-                    setField("describe", describe);
-                  }}
-                />
-              ) : (
-                visibleFields.map((field, i) => (
-                  <ExtractedField
-                    key={field.key}
-                    field={field}
-                    value={getValue(field.key)}
-                    onChange={(v) => setValue(field.key, v)}
-                    stagger={i}
-                    nested={!!field.followupOf}
+            <div className="ml-10 mt-2 flex flex-col overflow-hidden rounded-[2rem] border border-white/20 bg-card/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl animate-fade-up">
+              <div className="bg-primary/5 px-5 py-4">
+                <p className="text-sm font-semibold text-primary">Here is what I gathered:</p>
+              </div>
+              <div className="flex flex-col divide-y divide-border/50">
+                {isBeatD ? (
+                  <PastTreatmentChip
+                    status={answers.past_treatment_side_effects}
+                    describe={answers.describe}
+                    onChange={(status, describe) => {
+                      setField("past_treatment_side_effects", status);
+                      setField("describe", describe);
+                    }}
                   />
-                ))
-              )}
+                ) : (
+                  visibleFields.map((field, i) => (
+                    <ExtractedField
+                      key={field.key}
+                      field={field}
+                      value={getValue(field.key)}
+                      onChange={(v) => setValue(field.key, v)}
+                      stagger={i}
+                      nested={!!field.followupOf}
+                    />
+                  ))
+                )}
+              </div>
             </div>
             <button
-              className="ml-10 flex w-fit items-center gap-1.5 text-sm text-muted-foreground underline underline-offset-4"
+              className="ml-10 mt-4 flex w-fit items-center gap-1.5 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
               onClick={tryAgain}
             >
               <RotateCcw className="size-3.5" /> Didn&apos;t sound right? Try again

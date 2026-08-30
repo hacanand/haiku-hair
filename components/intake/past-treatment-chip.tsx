@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Plus, ChevronRight } from "lucide-react";
 import { Pill } from "@/components/intake/pill";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -24,57 +25,68 @@ export function PastTreatmentChip({ status, describe, onChange, stagger = 0 }: P
   if (!expanded) {
     const hasAnswer = status != null;
     return (
-      <Pill
-        tone={hasAnswer ? "confirmed" : "missing"}
-        icon={hasAnswer ? "check" : "plus"}
-        stagger={stagger}
-        className="max-w-full text-left whitespace-normal"
+      <button
+        type="button"
         onClick={() => {
           setDraftStatus(status);
           setDraftText(describe ?? "");
           setExpanded(true);
         }}
+        className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-muted/10 active:bg-muted/20"
       >
-        {hasAnswer ? (describe ? `“${describe}”` : status === "Yes" ? "Had an issue" : "No issues") : "Add response"}
-      </Pill>
+        <span className="text-[15px] font-medium text-foreground">Treatment experience</span>
+        <div className="flex items-center gap-2">
+          {!hasAnswer ? (
+            <span className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <Plus className="size-3.5" /> Add
+            </span>
+          ) : (
+            <span className="text-[15px] text-muted-foreground truncate max-w-[150px]">
+              {describe ? `“${describe}”` : status === "Yes" ? "Had an issue" : "No issues"}
+            </span>
+          )}
+          <ChevronRight className="size-4 text-muted-foreground/30" />
+        </div>
+      </button>
     );
   }
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-3xl border border-border bg-card p-4">
+    <div className="flex w-full flex-col gap-4 p-5">
+      <p className="text-[15px] font-medium text-foreground">Treatment experience</p>
       <div className="flex gap-2">
         {(["Yes", "No"] as const).map((opt) => (
-          <button
+          <Button
             key={opt}
-            type="button"
+            variant={draftStatus === opt ? "default" : "outline"}
+            className="rounded-full"
             onClick={() => setDraftStatus(opt)}
-            className={cn(
-              "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
-              draftStatus === opt ? "border-transparent bg-primary text-primary-foreground" : "border-border bg-transparent"
-            )}
           >
             {opt}
-          </button>
+          </Button>
         ))}
       </div>
       <Textarea
+        autoFocus
+        placeholder="What happened?"
         value={draftText}
         onChange={(e) => setDraftText(e.target.value)}
-        placeholder="Apne shabdon mein…"
-        rows={3}
-        className="rounded-2xl"
-        autoFocus
+        className="min-h-20 resize-none rounded-2xl bg-background/50"
       />
-      <Button
-        size="sm"
-        className="ml-auto rounded-full"
-        onClick={() => {
-          onChange(draftStatus, draftText.trim() || null);
-          setExpanded(false);
-        }}
-      >
-        Save
-      </Button>
+      <div className="flex items-center justify-end gap-2">
+        <Button variant="ghost" className="rounded-full" onClick={() => setExpanded(false)}>
+          Cancel
+        </Button>
+        <Button
+          className="rounded-full"
+          onClick={() => {
+            onChange(draftStatus, draftText.trim() || null);
+            setExpanded(false);
+          }}
+        >
+          Save
+        </Button>
+      </div>
     </div>
   );
 }

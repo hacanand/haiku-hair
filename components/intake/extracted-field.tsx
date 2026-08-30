@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
-import { Pill } from "@/components/intake/pill";
+import { X, Plus, ChevronRight } from "lucide-react";
 import { MultiSelectSheet } from "@/components/intake/multi-select-sheet";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import type { BeatField } from "@/lib/beats";
 
 interface ExtractedFieldProps {
@@ -16,18 +16,56 @@ interface ExtractedFieldProps {
   nested?: boolean;
 }
 
-/** Renders one voice-beat field as a chip, wired to the shared inline-expand
- *  / bottom-sheet interaction rules from the design spec. */
+function RowField({
+  label,
+  value,
+  missing,
+  onClick,
+  nested,
+}: {
+  label: string;
+  value: React.ReactNode;
+  missing: boolean;
+  onClick: () => void;
+  nested?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-muted/10 active:bg-muted/20",
+        nested && "bg-muted/5 pl-8 border-l-2 border-primary/20"
+      )}
+    >
+      <span className="text-[15px] font-medium text-foreground">{label}</span>
+      <div className="flex items-center gap-2">
+        {missing ? (
+          <span className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            <Plus className="size-3.5" /> Add
+          </span>
+        ) : (
+          <span className="text-[15px] text-muted-foreground truncate max-w-[150px]">
+            {value}
+          </span>
+        )}
+        <ChevronRight className="size-4 text-muted-foreground/30" />
+      </div>
+    </button>
+  );
+}
+
 export function ExtractedField({ field, value, onChange, stagger, nested }: ExtractedFieldProps) {
   const [expanded, setExpanded] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const wrapClass = nested ? "ml-4 border-l-2 border-dashed border-border pl-3" : "";
+  const wrapClass = nested ? "bg-muted/5 pl-8 border-l-2 border-primary/20" : "";
 
   if (field.kind === "number") {
     const num = value as number | null;
     if (expanded) {
       return (
-        <div className={wrapClass}>
+        <div className={`flex flex-col gap-3 p-5 ${wrapClass}`}>
+          <p className="text-sm font-medium text-foreground">{field.label}</p>
           <InlineNumberEditor
             initial={num}
             onCommit={(v) => {
@@ -39,16 +77,13 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
       );
     }
     return (
-      <div className={wrapClass}>
-        <Pill
-          tone={num == null ? "missing" : "confirmed"}
-          icon={num == null ? "plus" : "check"}
-          stagger={stagger}
-          onClick={() => setExpanded(true)}
-        >
-          {num == null ? `Add ${field.label.toLowerCase()}` : `${field.label}: ${num}`}
-        </Pill>
-      </div>
+      <RowField
+        label={field.label}
+        value={num}
+        missing={num == null}
+        onClick={() => setExpanded(true)}
+        nested={nested}
+      />
     );
   }
 
@@ -56,33 +91,34 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
     const yn = value as "Yes" | "No" | null;
     if (expanded) {
       return (
-        <div className={`flex gap-2 ${wrapClass}`}>
-          {(["Yes", "No"] as const).map((opt) => (
-            <Pill
-              key={opt}
-              tone="neutral"
-              onClick={() => {
-                onChange(opt);
-                setExpanded(false);
-              }}
-            >
-              {opt}
-            </Pill>
-          ))}
+        <div className={`flex flex-col gap-3 p-5 ${wrapClass}`}>
+          <p className="text-sm font-medium text-foreground">{field.label}</p>
+          <div className="flex gap-2">
+            {(["Yes", "No"] as const).map((opt) => (
+              <Button
+                key={opt}
+                variant="outline"
+                className="rounded-full"
+                onClick={() => {
+                  onChange(opt);
+                  setExpanded(false);
+                }}
+              >
+                {opt}
+              </Button>
+            ))}
+          </div>
         </div>
       );
     }
     return (
-      <div className={wrapClass}>
-        <Pill
-          tone={yn == null ? "missing" : "confirmed"}
-          icon={yn == null ? "plus" : "check"}
-          stagger={stagger}
-          onClick={() => setExpanded(true)}
-        >
-          {yn == null ? `Add ${field.label.toLowerCase()}` : `${field.label}: ${yn}`}
-        </Pill>
-      </div>
+      <RowField
+        label={field.label}
+        value={yn}
+        missing={yn == null}
+        onClick={() => setExpanded(true)}
+        nested={nested}
+      />
     );
   }
 
@@ -91,33 +127,34 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
     const options = field.options ?? [];
     if (expanded) {
       return (
-        <div className={`flex flex-wrap gap-2 ${wrapClass}`}>
-          {options.map((opt) => (
-            <Pill
-              key={opt}
-              tone="neutral"
-              onClick={() => {
-                onChange(opt);
-                setExpanded(false);
-              }}
-            >
-              {opt}
-            </Pill>
-          ))}
+        <div className={`flex flex-col gap-3 p-5 ${wrapClass}`}>
+          <p className="text-sm font-medium text-foreground">{field.label}</p>
+          <div className="flex flex-wrap gap-2">
+            {options.map((opt) => (
+              <Button
+                key={opt}
+                variant="outline"
+                className="rounded-full"
+                onClick={() => {
+                  onChange(opt);
+                  setExpanded(false);
+                }}
+              >
+                {opt}
+              </Button>
+            ))}
+          </div>
         </div>
       );
     }
     return (
-      <div className={wrapClass}>
-        <Pill
-          tone={val == null ? "missing" : "confirmed"}
-          icon={val == null ? "plus" : "check"}
-          stagger={stagger}
-          onClick={() => setExpanded(true)}
-        >
-          {val == null ? `Add ${field.label.toLowerCase()}` : val}
-        </Pill>
-      </div>
+      <RowField
+        label={field.label}
+        value={val}
+        missing={val == null}
+        onClick={() => setExpanded(true)}
+        nested={nested}
+      />
     );
   }
 
@@ -125,34 +162,38 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
     const arr = (value as string[] | null) ?? [];
     const options = field.options ?? [];
     return (
-      <div className={`flex flex-wrap gap-2 ${wrapClass}`}>
-        {arr.length === 0 && field.allowEmpty && (
-          <Pill tone="confirmed" icon="check" stagger={stagger} onClick={() => setSheetOpen(true)}>
-            None of these
-          </Pill>
-        )}
-        {arr.length === 0 && !field.allowEmpty && (
-          <Pill tone="missing" icon="plus" stagger={stagger} onClick={() => setSheetOpen(true)}>
-            Add {field.label.toLowerCase()}
-          </Pill>
-        )}
-        {arr.map((item, i) => (
-          <Pill
-            key={item}
-            tone="confirmed"
-            stagger={stagger + i}
-            image={field.optionImages?.[item]}
-            onClick={() => onChange(arr.filter((v) => v !== item))}
-          >
-            {item}
-            <X className="size-3.5 opacity-70" />
-          </Pill>
-        ))}
-        {arr.length > 0 && (
-          <Pill tone="missing" icon="plus" onClick={() => setSheetOpen(true)}>
-            Add more
-          </Pill>
-        )}
+      <>
+        <div className={`flex flex-col p-5 ${wrapClass}`}>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[15px] font-medium text-foreground">{field.label}</span>
+            <button
+              onClick={() => setSheetOpen(true)}
+              className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+            >
+              <Plus className="size-3.5" /> Edit
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {arr.length === 0 ? (
+              <span className="text-sm text-muted-foreground/60 italic">No options selected</span>
+            ) : (
+              arr.map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium shadow-sm"
+                >
+                  {item}
+                  <button
+                    onClick={() => onChange(arr.filter((v) => v !== item))}
+                    className="ml-0.5 rounded-full p-0.5 hover:bg-primary-foreground/20 transition-colors"
+                  >
+                    <X className="size-3" />
+                  </button>
+                </span>
+              ))
+            )}
+          </div>
+        </div>
         <MultiSelectSheet
           open={sheetOpen}
           onOpenChange={setSheetOpen}
@@ -160,10 +201,10 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
           options={options}
           optionImages={field.optionImages}
           selected={arr}
-          exclusiveOption={options.find(o => o === "None" || o === "No known family history" || o === "None of the above")}
+          exclusiveOption={options.find((o) => o === "None" || o === "No known family history" || o === "None of the above")}
           onConfirm={(next) => onChange(next)}
         />
-      </div>
+      </>
     );
   }
 
@@ -171,7 +212,8 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
   const text = (value as string | null) ?? null;
   if (expanded) {
     return (
-      <div className={wrapClass}>
+      <div className={`flex flex-col gap-3 p-5 ${wrapClass}`}>
+        <p className="text-sm font-medium text-foreground">{field.label}</p>
         <InlineTextEditor
           initial={text ?? ""}
           onCommit={(v) => {
@@ -183,16 +225,13 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
     );
   }
   return (
-    <div className={wrapClass}>
-      <Pill
-        tone={text ? "confirmed" : "missing"}
-        icon={text ? "check" : "plus"}
-        stagger={stagger}
-        onClick={() => setExpanded(true)}
-      >
-        {text ? `“${text}”` : `Add ${field.label.toLowerCase()}`}
-      </Pill>
-    </div>
+    <RowField
+      label={field.label}
+      value={text ? `“${text}”` : null}
+      missing={text == null}
+      onClick={() => setExpanded(true)}
+      nested={nested}
+    />
   );
 }
 
@@ -209,9 +248,9 @@ function InlineNumberEditor({ initial, onCommit }: { initial: number | null; onC
         onKeyDown={(e) => {
           if (e.key === "Enter") onCommit(val ? Number(val) : null);
         }}
-        className="h-10 w-24 rounded-full text-center"
+        className="h-12 w-28 rounded-full text-center text-lg"
       />
-      <Button size="sm" className="rounded-full" onClick={() => onCommit(val ? Number(val) : null)}>
+      <Button className="rounded-full h-12 px-6" onClick={() => onCommit(val ? Number(val) : null)}>
         Save
       </Button>
     </div>
@@ -230,9 +269,9 @@ function InlineTextEditor({ initial, onCommit }: { initial: string; onCommit: (v
           if (e.key === "Enter") onCommit(val.trim());
         }}
         placeholder="Type here…"
-        className="h-10 min-w-40 rounded-full"
+        className="h-12 flex-1 min-w-[200px] rounded-full text-lg px-5"
       />
-      <Button size="sm" className="rounded-full" onClick={() => onCommit(val.trim())}>
+      <Button className="rounded-full h-12 px-6" onClick={() => onCommit(val.trim())}>
         Save
       </Button>
     </div>
