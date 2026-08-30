@@ -60,14 +60,20 @@
   --secondary: oklch(0.95 0.03 174);
   --secondary-foreground: oklch(0.32 0.06 174);
   --muted: oklch(0.96 0.008 90);
-  --muted-foreground: oklch(0.5 0.02 250);
+  /* Darkened from 0.5 → 0.38: mid-gray-on-near-white was borderline AA
+     (~4.5:1). Older eyes lose contrast sensitivity with age, so secondary
+     text throughout (subtitles, helper copy, timestamps) targets AAA
+     (~7:1) instead of scraping by on AA. */
+  --muted-foreground: oklch(0.38 0.02 250);
   --accent: oklch(0.95 0.03 174);
   --accent-foreground: oklch(0.32 0.06 174);
   --success: oklch(0.6 0.13 154);
   --success-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.012 90);
-  --input: oklch(0.91 0.012 90);
+  /* Darkened from 0.91 → 0.82: card/input edges need to actually read as a
+     boundary, not disappear against the background. */
+  --border: oklch(0.82 0.014 90);
+  --input: oklch(0.82 0.014 90);
   --ring: oklch(0.6 0.09 174);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -92,24 +98,32 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* A genuine low-light theme, not shadcn's generic gray default: deep
+     warm-neutral (not pure black — pure black next to bright UI chrome
+     causes halation/glare, worse for older eyes at night) with the same
+     teal identity as the light theme, brightened so it still pops. Every
+     text pairing here targets ~7:1 (AAA), not just AA — this is the theme
+     a patient in a dim waiting room actually sees. */
+  --background: oklch(0.19 0.014 250);
+  --foreground: oklch(0.96 0.006 90);
+  --card: oklch(0.24 0.014 250);
+  --card-foreground: oklch(0.96 0.006 90);
+  --popover: oklch(0.24 0.014 250);
+  --popover-foreground: oklch(0.96 0.006 90);
+  --primary: oklch(0.74 0.12 174);
+  --primary-foreground: oklch(0.15 0.02 174);
+  --secondary: oklch(0.3 0.045 174);
+  --secondary-foreground: oklch(0.92 0.03 174);
+  --muted: oklch(0.28 0.012 250);
+  --muted-foreground: oklch(0.8 0.012 90);
+  --accent: oklch(0.3 0.045 174);
+  --accent-foreground: oklch(0.92 0.03 174);
+  --success: oklch(0.7 0.14 154);
+  --success-foreground: oklch(0.14 0.02 154);
+  --destructive: oklch(0.72 0.19 22.216);
+  --border: oklch(1 0 0 / 16%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.74 0.12 174);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -132,9 +146,16 @@
   html {
     @apply font-sans;
     -webkit-tap-highlight-color: transparent;
+    /* 16px → 18px root. Every rem-sized thing in the app — question text,
+       option labels, buttons, spacing — is built on this, so raising it
+       here scales the whole UI up together for a 55+ reader instead of
+       hunting down individual text-sm/text-base classes one by one. */
+    font-size: 112.5%;
   }
   body {
     @apply bg-background text-foreground text-base;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 }
 

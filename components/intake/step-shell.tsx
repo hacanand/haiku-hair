@@ -68,11 +68,21 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
         )}
         <header className="safe-top flex shrink-0 items-center justify-between bg-background px-4 pt-4 pb-3 lg:px-8 lg:pt-8">
           {!hideBack ? (
-            <Button variant="ghost" size="icon" className="shrink-0 rounded-full" onClick={goBack} aria-label="Go back">
+            <Button
+              variant="ghost"
+              size="icon"
+              // Same treatment as the theme toggle: a real 44px target with
+              // a visible border/shadow instead of a bare ghost icon that
+              // has no boundary until hover — for the same reason (older
+              // eyes, a thumb that isn't always precise) that mattered there.
+              className="size-10 mt-2.5 shrink-0 rounded-full border border-border bg-card/95 text-foreground shadow-md backdrop-blur active:scale-90"
+              onClick={goBack}
+              aria-label="Go back"
+            >
               <ArrowLeft className="size-5" />
             </Button>
           ) : (
-            <div className="size-9 shrink-0" />
+            <div className="size-11 shrink-0" />
           )}
         </header>
 
