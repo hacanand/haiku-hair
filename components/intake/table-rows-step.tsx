@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, X, type LucideIcon } from "lucide-react";
+import { toast } from "sonner";
 import { StepShell } from "@/components/intake/step-shell";
 import { Button } from "@/components/ui/button";
 import { RippleButton } from "@/components/intake/ripple";
@@ -54,6 +55,10 @@ export function TableRowsStep({
   onFinish,
 }: TableRowsStepProps) {
   const [index, setIndex] = useState(0);
+  // First Next/Continue tap on a row that isn't fully answered just nudges
+  // — tracked per row index so moving on doesn't carry a stale warning, and
+  // a second tap on the same row goes through rather than trapping them.
+  const [warnedIndex, setWarnedIndex] = useState<number | null>(null);
   const storeGoBack = useIntakeStore((s) => s.goBack);
   const row = rows[index];
   const displayRow = rowLabels?.[row] ?? row;
@@ -70,6 +75,31 @@ export function TableRowsStep({
     setIndex(next);
   }
 
+  function handleNext() {
+    if (primaryVal == null) {
+      if (warnedIndex !== index) {
+        setWarnedIndex(index);
+        toast.warning(`Please answer: have you used ${displayRow.toLowerCase()}?`, {
+          description: "Tap Yes or No above — or tap this button again to skip it.",
+        });
+        return;
+      }
+      goToRow(index + 1);
+      return;
+    }
+    if (primaryVal === true) {
+      const missing = extraFields.filter((f) => answer[f.key] == null).map((f) => f.label);
+      if (missing.length > 0 && warnedIndex !== index) {
+        setWarnedIndex(index);
+        toast.warning(`Kuch details baaki hain: ${missing.join(", ")}`, {
+          description: "Tap this button again to move on anyway.",
+        });
+        return;
+      }
+    }
+    goToRow(index + 1);
+  }
+
   return (
     <StepShell
       eyebrow={`${eyebrow} · ${index + 1} of ${rows.length}`}
@@ -81,12 +111,7 @@ export function TableRowsStep({
       image={rowImages?.[row] ? { src: rowImages[row], alt: displayRow } : undefined}
       onBack={() => (index > 0 ? setIndex(index - 1) : storeGoBack())}
       footer={
-        <Button
-          size="lg"
-          disabled={primaryVal == null}
-          className="h-14 w-full rounded-full text-base"
-          onClick={() => goToRow(index + 1)}
-        >
+        <Button size="lg" className="h-14 w-full rounded-full text-base" onClick={handleNext}>
           {isLast ? "Continue" : "Next"}
         </Button>
       }

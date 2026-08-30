@@ -22,6 +22,17 @@ import type { HabitsAnswers, IntakeState } from "@/lib/schema";
 // (gated on `phase`) never moved off "prompt".
 type Phase = "prompt" | "processing" | "confirm";
 
+/** Scrolls a newly-mounted element into view once, the first time it
+ *  appears — same pattern as the products/procedures reveal card. Without
+ *  it, the copilot's reply (or even the "thinking" indicator) can land
+ *  below the fold and the patient never notices it arrived. */
+function scrollIntoViewOnce(el: HTMLElement | null) {
+  if (el && !el.dataset.scrolled) {
+    el.dataset.scrolled = "true";
+    setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "nearest" }), 50);
+  }
+}
+
 function formatElapsed(ms: number) {
   const totalSec = Math.floor(ms / 1000);
   const m = Math.floor(totalSec / 60);
@@ -46,6 +57,9 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
   const [transcript, setTranscript] = useState("");
   const [manualTypedMode, setManualTypedMode] = useState(false);
   const [typedText, setTypedText] = useState("");
+  // First Continue tap with something unfilled just nudges — it doesn't
+  // trap the patient if a field genuinely can't be answered.
+  const [continueWarned, setContinueWarned] = useState(false);
 
   const recorder = useVoiceRecorder();
   const micUnavailable = recorder.status === "unsupported" || recorder.status === "denied";
@@ -131,12 +145,35 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
   const visibleFields = beat.fields.filter((f) => !f.followupOf || getValue(f.followupOf.key) === f.followupOf.equals);
   const canContinue = phase === "confirm";
 
+  function missingLabels(): string[] {
+    if (isBeatD) return answers.past_treatment_side_effects == null ? ["Past treatment response"] : [];
+    return visibleFields
+      .filter((f) => {
+        const v = getValue(f.key);
+        if (f.kind === "multi") return !f.allowEmpty && ((v as string[] | null) ?? []).length === 0;
+        return v == null;
+      })
+      .map((f) => f.label);
+  }
+
+  function handleContinue() {
+    const missing = missingLabels();
+    if (missing.length > 0 && !continueWarned) {
+      setContinueWarned(true);
+      toast.warning(`Kuch details baaki hain: ${missing.join(", ")}`, {
+        description: "Tap the dashed chip above to fill it in — or tap Continue again to move on anyway.",
+      });
+      return;
+    }
+    goNext();
+  }
+
   return (
     <StepShell
       title={beat.title}
       image={beat.heroImage ? { src: beat.heroImage, alt: beat.title } : undefined}
       footer={
-        <Button size="lg" disabled={!canContinue} className="h-14 w-full rounded-full text-base" onClick={goNext}>
+        <Button size="lg" disabled={!canContinue} className="h-14 w-full rounded-full text-base" onClick={handleContinue}>
           Continue
         </Button>
       }
@@ -156,12 +193,19 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
           </button>
         </AssistantBubble>
 
-        {phase === "processing" && <TypingBubble />}
+        {phase === "processing" && (
+          <div ref={scrollIntoViewOnce}>
+            <TypingBubble />
+          </div>
+        )}
 
         {phase === "confirm" && (
           <>
             {transcript && <PatientBubble>{transcript}</PatientBubble>}
-            <div className="ml-10 mt-2 flex flex-col overflow-hidden rounded-[2rem] border border-white/20 bg-card/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl animate-fade-up">
+            <div
+              ref={scrollIntoViewOnce}
+              className="ml-10 mt-2 flex flex-col overflow-hidden rounded-[2rem] border border-white/20 bg-card/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl animate-fade-up"
+            >
               <div className="bg-primary/5 px-5 py-4">
                 <p className="text-sm font-semibold text-primary">Here is what I gathered:</p>
               </div>

@@ -181,6 +181,25 @@
   }
 }
 
+/* Every scrollable panel in the app (StepShell's main, the visual rail, the
+   bottom-sheet option list, review cards) is an inner overflow-y-auto div,
+   not the page itself. On the centered desktop layout that div's own right
+   edge sits mid-screen, not at the browser window edge — so its native
+   scrollbar renders floating in the middle of a lot of empty background,
+   which reads as broken rather than as a scroll affordance. Hiding it is
+   the deliberate choice here (every phone platform already does this by
+   default): scrolling itself is untouched — wheel, trackpad, touch, and
+   keyboard all still work — only the drawn track/thumb is gone. */
+.overflow-y-auto,
+.overflow-auto {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+  display: none;
+}
+
 /* Chips appear one at a time as if being "typed out" — reinforces that they
    came from what the patient just said. Delay is set per-chip via the
    --stagger custom property (index * 150ms). */

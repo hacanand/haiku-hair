@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Plus, ChevronRight } from "lucide-react";
+import { X, Plus, Check, ChevronRight } from "lucide-react";
 import { MultiSelectSheet } from "@/components/intake/multi-select-sheet";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -97,13 +97,14 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
             {(["Yes", "No"] as const).map((opt) => (
               <Button
                 key={opt}
-                variant="outline"
+                variant={opt === yn ? "default" : "outline"}
                 className="rounded-full"
                 onClick={() => {
                   onChange(opt);
                   setExpanded(false);
                 }}
               >
+                {opt === yn && <Check className="size-4" />}
                 {opt}
               </Button>
             ))}
@@ -133,13 +134,14 @@ export function ExtractedField({ field, value, onChange, stagger, nested }: Extr
             {options.map((opt) => (
               <Button
                 key={opt}
-                variant="outline"
+                variant={opt === val ? "default" : "outline"}
                 className="rounded-full"
                 onClick={() => {
                   onChange(opt);
                   setExpanded(false);
                 }}
               >
+                {opt === val && <Check className="size-4" />}
                 {opt}
               </Button>
             ))}
