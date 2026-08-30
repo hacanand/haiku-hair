@@ -145,14 +145,14 @@ export function TableRowsStep({
       </div>
 
       {primaryVal === true && (
-        <div 
-          ref={(el) => {
-            if (el && !el.dataset.scrolled) {
-              el.dataset.scrolled = "true";
-              setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "nearest" }), 50);
-            }
-          }}
+        <div
           key={`extra-fields-${row}`}
+          // No auto-scroll here (there was one) — the title above is
+          // already sticky, so it never needs one: forcing a scroll on top
+          // of that just dragged the Yes/No buttons up under the sticky
+          // title mid-animation, which is the half-cut-off pill glitch this
+          // replaces. Letting the reveal sit in normal flow is both simpler
+          // and doesn't fight the positioning that's already pinned.
           className="mt-6 flex flex-col gap-6 rounded-[2rem] bg-card/60 p-6 backdrop-blur-xl animate-fade-up shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20"
         >
           {extraFields.map((field) => {
