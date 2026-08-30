@@ -99,7 +99,7 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
           )}
           <div className="sticky top-[calc(5.5rem+env(safe-area-inset-top,0px))] z-10 -mx-5 bg-background px-5 pb-3 pt-2 lg:hidden">
             <p className="text-sm font-semibold text-primary">{resolvedEyebrow}</p>
-            <h1 className="mt-1 text-lg font-semibold text-pretty">{title}</h1>
+            <h1 className="mt-1 text-2xl font-semibold text-pretty">{title}</h1>
             {subtitle && <p className="mt-2 text-pretty text-muted-foreground">{subtitle}</p>}
           </div>
           <div className="mt-5 animate-fade-up lg:mt-0">{children}</div>
