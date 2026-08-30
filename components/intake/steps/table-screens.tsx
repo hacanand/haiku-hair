@@ -29,10 +29,10 @@ export function ProductsStep() {
       rowLabels={PRODUCT_ROW_LABELS}
       rowImages={{ 
         "OTC/Medicated Shampoos": MISC_IMAGES.shelf,
-        "Hair Oils/Serums": "/images/Hair_Oil_with_Herbal_Products.png",
-        "Topical Minoxidil": "/images/topical_minoxidil.png",
-        "Oral Minoxidil": "/images/oral_minoxidil.png",
-        "Supplements": "/images/hair_supplements.png"
+        "Hair Oils/Serums": "https://ucarecdn.com/80be3a42-0362-40ef-8398-0d9fd6d92d74/Hair_Oil_with_Herbal_Products.png",
+        "Topical Minoxidil": "https://ucarecdn.com/47f994e9-fb3b-472e-9fed-39205e490724/topical_minoxidil.png",
+        "Oral Minoxidil": "https://ucarecdn.com/0ae93600-13eb-4486-8266-86ecd240b1c0/oral_minoxidil.png",
+        "Supplements": "https://ucarecdn.com/4dd06478-2bad-4df1-9cd4-ceda4d7a56cb/hair_supplements.png"
       }}
       primaryQuestion={(rowLabel) => `Have you used ${rowLabel.charAt(0).toLowerCase() + rowLabel.slice(1)}?`}
       primaryKey="used"
@@ -67,10 +67,10 @@ export function ProceduresStep() {
       rows={PROCEDURE_ROWS}
       rowLabels={PROCEDURE_ROW_LABELS}
       rowImages={{
-        "PRP/GFC/iPRF": "/images/prp_gfc_iprf_therapy.png",
-        "Stem Cells/Exosomes": "/images/stem_cell_exosome_therapy.png",
-        "Hair Transplant": "/images/hair_transplant.png",
-        "Other": "/images/other_procedure.png"
+        "PRP/GFC/iPRF": "https://ucarecdn.com/c394fc2d-0129-4828-b3de-f2bcdeb0d4a0/prp_gfc_iprf_therapy.png",
+        "Stem Cells/Exosomes": "https://ucarecdn.com/56712338-88de-4647-b96e-5e864b55fe77/stem_cell_exosome_therapy.png",
+        "Hair Transplant": "https://ucarecdn.com/eda0d35e-01d0-4f7e-8ba4-06d25b518943/hair_transplant.png",
+        "Other": "https://ucarecdn.com/6ba0e6b4-7523-463a-9522-748eac078f87/other_procedure.png"
       }}
       primaryQuestion={(rowLabel) => `Have you had ${rowLabel} done?`}
       primaryKey="done"

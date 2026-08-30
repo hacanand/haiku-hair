@@ -34,7 +34,7 @@ export function SexGateStep() {
     <StepShell
       eyebrow="Quick check"
       title="Which best describes you?"
-      image={{ src: "/images/patient_profile_check.png", alt: "Patient profile" }}
+      image={{ src: "https://ucarecdn.com/03c77f39-0dec-4bfb-a661-b672b2375e6a/patient_profile_check.png", alt: "Patient profile" }}
       subtitle="A couple of the next questions only apply to female patients — this just makes sure we don't ask you anything that doesn't apply."
       footer={
         <Button size="lg" disabled={!sex} className="h-14 w-full rounded-full text-base" onClick={goNext}>
@@ -160,7 +160,7 @@ export function SampleTypeStep() {
   return (
     <TapChoiceStep
       title="Which sample would you prefer?"
-      heroImage={{ src: "/images/sample_preference.png", alt: "Sample preference" }}
+      heroImage={{ src: "https://ucarecdn.com/5148a4b0-9dad-404a-8e4b-be31cfd09fd0/sample_preference.png", alt: "Sample preference" }}
       subtitle="The test kit can be sent for either one."
       options={SAMPLE_OPTIONS}
       optionImages={SAMPLE_IMAGES}
@@ -180,7 +180,7 @@ export function ConsentStep() {
   return (
     <StepShell
       title="One last thing"
-      image={{ src: "/images/sample_consent.png", alt: "Consent" }}
+      image={{ src: "https://ucarecdn.com/885cc3ab-4ba3-4405-9e56-f0e91a2b05fe/sample_consent.png", alt: "Consent" }}
       footer={
         <Button size="lg" disabled={consent !== "Yes"} className="h-14 w-full rounded-full text-base" onClick={goNext}>
           {consent === "Yes" ? "Confirm & continue" : "Please confirm to continue"}
