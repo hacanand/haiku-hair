@@ -157,6 +157,19 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
+  /* Native <button> defaults to the plain arrow cursor in every browser —
+     only <a> gets pointer for free, and Tailwind's preflight doesn't add it
+     back. Every tap target in this app (chips, option tiles, the theme
+     toggle, footer CTAs) is a real <button>, so without this a mouse user
+     on the laptop layout gets no visual "this is clickable" cue at all. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }
 
 @layer utilities {
