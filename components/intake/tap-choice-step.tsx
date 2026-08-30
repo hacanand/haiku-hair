@@ -91,7 +91,7 @@ export function TapChoiceStep({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col gap-2.5">
+        <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2">
           {options.map((option) => (
             <TextOptionRow key={option} option={option} active={isSelected(option)} onClick={() => toggle(option)} />
           ))}

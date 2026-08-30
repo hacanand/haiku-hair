@@ -50,6 +50,7 @@ export const BEAT_A: Beat = {
   promptText:
     "Bataiye, hair loss kab shuru hua tha — umar kitni thi tab — aur kitne time se chal raha hai? Aur family mein kisi ko, jaise papa, mummy ya bhai-behen ko, aisi hi problem rahi hai?",
   audioSrc: "/audio/beat-a.wav",
+  heroImage: "/images/hair_loss_history.png",
   systemPrompt:
     "The patient is answering: when did hair loss begin (age), how long has it been going on, and whether anyone in their family (father/mother/siblings) has had hair loss. They may also casually mention the shape/pattern of their hair loss (receding hairline, crown thinning, widening part, diffuse thinning, patchy loss, sudden shedding) — capture it only if actually said, never guess it from other context.",
   jsonSchema: {
@@ -77,6 +78,7 @@ export const BEAT_B: Beat = {
   promptText:
     "Pichhle 6 mahine mein kuch aisa hua jo bataana zaroori ho — bahut stress, weight loss, bukhaar ya koi illness, surgery, ya kahin shift hona?",
   audioSrc: "/audio/beat-b.wav",
+  heroImage: "/images/Thoughtful_Woman’s_Six-Month_Recall.png",
   systemPrompt:
     "The patient is listing anything from the past 6 months that could explain hair loss: crash dieting/weight loss, high stress or emotional trauma, fever/illness like COVID/dengue/typhoid, recent surgery, or a change in location/water/air quality. If they say nothing applies (e.g. 'kuch nahi', 'nothing', 'all fine'), return an empty array — that is a complete, confident answer, not a missing one.",
   jsonSchema: {
@@ -143,6 +145,7 @@ export const BEAT_D: Beat = {
   promptText:
     "Kya kisi purane treatment se koi side effect hua, ya wo aapke liye kaam nahi kiya? Apne shabdon mein bataiye.",
   audioSrc: "/audio/beat-d.wav",
+  heroImage: "/images/past_treatment_response.png",
   systemPrompt:
     "The patient is describing, in their own words, whether any past hair treatment gave them a side effect or simply didn't work. Set past_treatment_side_effects to 'Yes' if they describe any problem/side effect/lack of result, 'No' if they clearly say everything was fine, or null if unclear. Put a short direct summary close to their own words in describe (null if nothing to report).",
   jsonSchema: {

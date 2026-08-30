@@ -23,20 +23,20 @@ export function StepVisualRail({ eyebrow, title, subtitle, image, progress }: St
         GenoRoot Hair &amp; Scalp Clinic
       </div>
 
-      <div className="flex flex-col gap-8 py-10">
-        <div className="elevation-2 relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] bg-muted">
+      <div className="flex flex-1 flex-col justify-center gap-10 py-10 max-w-2xl mx-auto w-full">
+        <div className="elevation-2 relative aspect-[4/3] w-full overflow-hidden rounded-[2.5rem] bg-muted shadow-2xl">
           {image ? (
-            <Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(min-width: 1280px) 460px, 380px" />
+            <Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center">
-              <Sparkles className="size-16 text-primary/20" />
+            <div className="flex h-full w-full items-center justify-center bg-primary/5">
+              <Sparkles className="size-20 text-primary/20" />
             </div>
           )}
         </div>
         <div>
-          {eyebrow && <p className="text-sm font-semibold text-primary">{eyebrow}</p>}
-          <h2 className="mt-2 text-3xl font-semibold text-balance xl:text-4xl">{title}</h2>
-          {subtitle && <p className="mt-3 max-w-md text-balance text-muted-foreground">{subtitle}</p>}
+          {eyebrow && <p className="text-base font-semibold text-primary">{eyebrow}</p>}
+          <h2 className="mt-2 text-4xl font-semibold tracking-tight text-balance xl:text-5xl">{title}</h2>
+          {subtitle && <p className="mt-4 text-lg text-balance text-muted-foreground">{subtitle}</p>}
         </div>
       </div>
 

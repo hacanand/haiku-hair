@@ -27,7 +27,13 @@ export function ProductsStep() {
       sectionTitle="Have you used this before?"
       rows={PRODUCT_ROWS}
       rowLabels={PRODUCT_ROW_LABELS}
-      rowImages={{ "OTC/Medicated Shampoos": MISC_IMAGES.shelf }}
+      rowImages={{ 
+        "OTC/Medicated Shampoos": MISC_IMAGES.shelf,
+        "Hair Oils/Serums": "/images/Hair_Oil_with_Herbal_Products.png",
+        "Topical Minoxidil": "/images/topical_minoxidil.png",
+        "Oral Minoxidil": "/images/oral_minoxidil.png",
+        "Supplements": "/images/hair_supplements.png"
+      }}
       primaryQuestion={(rowLabel) => `Have you used ${rowLabel.charAt(0).toLowerCase() + rowLabel.slice(1)}?`}
       primaryKey="used"
       extraFields={[
@@ -60,6 +66,12 @@ export function ProceduresStep() {
       sectionTitle="Have you had this done in-clinic?"
       rows={PROCEDURE_ROWS}
       rowLabels={PROCEDURE_ROW_LABELS}
+      rowImages={{
+        "PRP/GFC/iPRF": "/images/prp_gfc_iprf_therapy.png",
+        "Stem Cells/Exosomes": "/images/stem_cell_exosome_therapy.png",
+        "Hair Transplant": "/images/hair_transplant.png",
+        "Other": "/images/other_procedure.png"
+      }}
       primaryQuestion={(rowLabel) => `Have you had ${rowLabel} done?`}
       primaryKey="done"
       extraFields={[

@@ -63,7 +63,7 @@ export function MultiSelectSheet({
     <Drawer open={open} onOpenChange={onOpenChange} showSwipeHandle>
       <DrawerContent
         container={container}
-        className="max-h-[85%] lg:inset-x-auto lg:left-1/2 lg:w-full lg:max-w-lg lg:[--translate-x:-50%]"
+        className="max-h-[85%] lg:inset-x-auto lg:left-[50%] lg:right-0 lg:w-full lg:max-w-lg lg:mx-auto"
       >
         <DrawerHeader>
           <DrawerTitle>{title}</DrawerTitle>

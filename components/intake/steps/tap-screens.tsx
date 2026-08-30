@@ -32,7 +32,9 @@ export function SexGateStep() {
 
   return (
     <StepShell
+      eyebrow="Quick check"
       title="Which best describes you?"
+      image={{ src: "/images/patient_profile_check.png", alt: "Patient profile" }}
       subtitle="A couple of the next questions only apply to female patients — this just makes sure we don't ask you anything that doesn't apply."
       footer={
         <Button size="lg" disabled={!sex} className="h-14 w-full rounded-full text-base" onClick={goNext}>
@@ -40,7 +42,7 @@ export function SexGateStep() {
         </Button>
       }
     >
-      <div className="flex flex-col gap-2.5">
+      <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2">
         {options.map((opt) => (
           <RippleButton
             key={opt.value}
@@ -158,7 +160,8 @@ export function SampleTypeStep() {
   return (
     <TapChoiceStep
       title="Which sample would you prefer?"
-      subtitle="Either works for the genetic panel — pick whichever is easier for you."
+      heroImage={{ src: "/images/sample_preference.png", alt: "Sample preference" }}
+      subtitle="The test kit can be sent for either one."
       options={SAMPLE_OPTIONS}
       optionImages={SAMPLE_IMAGES}
       value={value}
@@ -177,6 +180,7 @@ export function ConsentStep() {
   return (
     <StepShell
       title="One last thing"
+      image={{ src: "/images/sample_consent.png", alt: "Consent" }}
       footer={
         <Button size="lg" disabled={consent !== "Yes"} className="h-14 w-full rounded-full text-base" onClick={goNext}>
           {consent === "Yes" ? "Confirm & continue" : "Please confirm to continue"}
