@@ -28,6 +28,7 @@ interface StepShellProps {
   footer: ReactNode;
   hideBack?: boolean;
   hideProgress?: boolean;
+  hideMobileImage?: boolean;
   /** Override the default "go to previous step" back action (e.g. a
    *  multi-row step wants Back to mean "previous row" first). */
   onBack?: () => void;
@@ -37,7 +38,19 @@ interface StepShellProps {
  *  same footer CTA position — only the middle content shape changes. On a
  *  phone this is the whole screen; on a laptop it's the right-hand column
  *  of a real two-pane layout (DesktopSplit), not a scaled-down mobile view. */
-export function StepShell({ eyebrow, title, subtitle, image, pinned, children, footer, hideBack, hideProgress, onBack }: StepShellProps) {
+export function StepShell({
+  eyebrow,
+  title,
+  subtitle,
+  image,
+  pinned,
+  children,
+  footer,
+  hideBack,
+  hideProgress,
+  hideMobileImage,
+  onBack,
+}: StepShellProps) {
   const step = useIntakeStore((s) => s.step);
   const answers = useIntakeStore((s) => s.answers);
   const storeGoBack = useIntakeStore((s) => s.goBack);
@@ -92,7 +105,7 @@ export function StepShell({ eyebrow, title, subtitle, image, pinned, children, f
         </header>
 
         <main className="px-5 pt-[calc(4.5rem+env(safe-area-inset-top,0px))] pb-[calc(7rem+env(safe-area-inset-bottom,0px))] lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-8 lg:pt-2 lg:pb-6">
-          {image && (
+          {image && !hideMobileImage && (
             <div className="relative mx-auto mb-4 aspect-[16/10] w-full overflow-hidden rounded-3xl bg-muted lg:hidden">
               <SkeletonImage preload src={image.src} alt={image.alt} fill className="object-cover" sizes="100vw" />
             </div>

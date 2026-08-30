@@ -68,6 +68,8 @@ export function ReviewStep() {
       eyebrow="Almost done"
       title="Check your answers"
       subtitle="Tap anything to fix it. This is exactly what your doctor will see."
+      image={{ src: "https://ucarecdn.com/078dd1af-8812-40e4-920d-f86917482540/-/preview/", alt: "Review answers" }}
+      hideMobileImage={true}
       footer={
         <Button
           size="lg"
