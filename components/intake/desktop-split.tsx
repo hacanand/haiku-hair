@@ -18,11 +18,23 @@ export function DesktopSplit({ visual, children }: { visual?: ReactNode; childre
       <div className="hidden lg:flex lg:w-1/2 lg:flex-col lg:border-r lg:border-border/60">
         {visual}
       </div>
-      {/* Right pane: Interactive Form */}
-      <div className="flex w-full flex-col lg:min-h-0 lg:w-1/2 lg:flex-1 lg:items-center lg:justify-center">
-        <div className="flex w-full flex-col relative lg:h-[800px] lg:max-h-full lg:max-w-[640px]">
-          {children}
-        </div>
+      {/* Right pane: Interactive Form.
+          This div's job is only to give StepShell a genuinely bounded
+          height (lg:h-full, definite — matching the row's lg:h-dvh) to
+          work with. StepShell's own header/footer are already built as
+          lg:shrink-0 (pinned) with lg:flex-1 lg:overflow-y-auto on its
+          `main` in between — that's the correct "back button and Continue
+          always stay put, only the middle scrolls" structure, but it can
+          only activate against a real bounded-height ancestor. The earlier
+          version here made the *whole card* (header, content and footer
+          together) the scrolling unit instead, on an auto-height box — that
+          fixed the dead-space bug from before it, but cost exactly the
+          pinning this one restores: the back button scrolled up out of
+          view with the rest, and Continue needed a scroll to reach even
+          right after tapping a selection. Centering short content so it
+          doesn't look stranded is now StepShell's job, inside `main`. */}
+      <div className="flex w-full flex-col lg:h-full lg:w-1/2 lg:items-center lg:overflow-hidden lg:p-10">
+        <div className="flex w-full flex-col lg:h-full lg:max-w-[640px]">{children}</div>
       </div>
     </div>
   );

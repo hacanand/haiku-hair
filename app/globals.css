@@ -142,6 +142,15 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    /* Scroll stays fully functional everywhere (touch, wheel, keyboard,
+       programmatic) — this only hides the visible track/thumb chrome, which
+       reads as clutter against this app's custom, minimal surfaces. Applied
+       globally via `*` rather than per-container so it can't miss one. */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
   }
   html {
     @apply font-sans;

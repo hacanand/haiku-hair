@@ -115,7 +115,17 @@ export function StepShell({
             <h1 className="mt-1 text-2xl font-semibold text-pretty">{title}</h1>
             {subtitle && <p className="mt-2 text-pretty text-muted-foreground">{subtitle}</p>}
           </div>
-          <div className="mt-5 animate-fade-up lg:mt-0">{children}</div>
+          {/* lg:min-h-full + lg:justify-center: centers short content (a
+              plain Yes/No screen) instead of leaving it stranded at the top
+              with dead space below — but only ever as a floor, so long
+              content (this 6-tile grid) just grows past it and `main`
+              (the actual lg:overflow-y-auto scroller, now that the ancestor
+              chain gives it a real bounded height again) scrolls normally
+              from the true top, with the header/footer staying pinned
+              outside it the whole time. */}
+          <div className="mt-5 animate-fade-up lg:mt-0 lg:flex lg:min-h-full lg:flex-col lg:justify-center">
+            {children}
+          </div>
         </main>
 
         {/* Fixed for the same reason as the header — always reachable
