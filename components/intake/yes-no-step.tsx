@@ -2,7 +2,7 @@
 
 import { Check, X } from "lucide-react";
 import { StepShell } from "@/components/intake/step-shell";
-import { Button } from "@/components/ui/button";
+import { ContinueButton } from "@/components/intake/continue-button";
 import { useRipple, RippleLayer } from "@/components/intake/ripple";
 import { cn } from "@/lib/utils";
 import type { YesNo } from "@/lib/schema";
@@ -27,9 +27,7 @@ export function YesNoStep({ eyebrow, title, subtitle, heroImage, value, onChange
       subtitle={subtitle}
       image={heroImage}
       footer={
-        <Button size="lg" disabled={continueDisabled} className="h-14 w-full rounded-full text-base" onClick={onContinue}>
-          Continue
-        </Button>
+        <ContinueButton incomplete={continueDisabled} onContinue={onContinue} nudgeMessage="Please tap Yes or No to continue." />
       }
     >
       <div className="grid grid-cols-2 gap-3">

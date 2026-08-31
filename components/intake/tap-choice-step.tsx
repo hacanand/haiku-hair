@@ -3,9 +3,9 @@
 import { Check } from "lucide-react";
 import { StepShell } from "@/components/intake/step-shell";
 import { OptionImage } from "@/components/intake/option-image";
+import { ContinueButton } from "@/components/intake/continue-button";
 import { useRipple, RippleLayer } from "@/components/intake/ripple";
 import { highlightTerms } from "@/components/ui/term-tooltip";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface TapChoiceStepProps {
@@ -74,9 +74,12 @@ export function TapChoiceStep({
       subtitle={subtitle}
       image={heroImage}
       footer={
-        <Button size="lg" disabled={continueDisabled} className="h-14 w-full rounded-full text-base" onClick={onContinue}>
-          {continueLabel}
-        </Button>
+        <ContinueButton
+          incomplete={continueDisabled}
+          onContinue={onContinue}
+          label={continueLabel}
+          nudgeMessage={multi ? "Tap at least one option to continue." : "Please choose an option to continue."}
+        />
       }
     >
       {hasImages ? (

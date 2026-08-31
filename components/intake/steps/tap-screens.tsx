@@ -4,6 +4,7 @@ import { TapChoiceStep } from "@/components/intake/tap-choice-step";
 import { YesNoStep } from "@/components/intake/yes-no-step";
 import { StepShell } from "@/components/intake/step-shell";
 import { Button } from "@/components/ui/button";
+import { ContinueButton } from "@/components/intake/continue-button";
 import { RippleButton } from "@/components/intake/ripple";
 import { cn } from "@/lib/utils";
 import { useIntakeStore } from "@/lib/store";
@@ -36,11 +37,7 @@ export function SexGateStep() {
       title="Which best describes you?"
       image={{ src: "https://ucarecdn.com/03c77f39-0dec-4bfb-a661-b672b2375e6a/-/preview/", alt: "Patient profile" }}
       subtitle="A couple of the next questions only apply to female patients — this just makes sure we don't ask you anything that doesn't apply."
-      footer={
-        <Button size="lg" disabled={!sex} className="h-14 w-full rounded-full text-base" onClick={goNext}>
-          Continue
-        </Button>
-      }
+      footer={<ContinueButton incomplete={!sex} onContinue={goNext} nudgeMessage="Please pick one to continue." />}
     >
       <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2">
         {options.map((opt) => (
@@ -182,9 +179,12 @@ export function ConsentStep() {
       title="One last thing"
       image={{ src: "https://ucarecdn.com/885cc3ab-4ba3-4405-9e56-f0e91a2b05fe/-/preview/", alt: "Consent" }}
       footer={
-        <Button size="lg" disabled={consent !== "Yes"} className="h-14 w-full rounded-full text-base" onClick={goNext}>
-          {consent === "Yes" ? "Confirm & continue" : "Please confirm to continue"}
-        </Button>
+        <ContinueButton
+          incomplete={consent !== "Yes"}
+          onContinue={goNext}
+          label={consent === "Yes" ? "Confirm & continue" : "Please confirm to continue"}
+          nudgeMessage="Please check the box above to give consent before continuing."
+        />
       }
     >
       <div className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-5">
