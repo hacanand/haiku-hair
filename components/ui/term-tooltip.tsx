@@ -33,6 +33,16 @@ export function TermTooltip({ term }: { term: string }) {
     <TooltipProvider delay={200}>
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger
+          // Default trigger renders a <button>, which is inline-block —
+          // fine for a short term, but a multi-word one (e.g. "stem cell or
+          // exosome therapy") then reflows as a single atomic box inside
+          // the surrounding heading: it can wrap internally, but trailing
+          // text right after it (our "?") can't share its last line and
+          // gets orphaned onto its own. A real inline <span> flows exactly
+          // like the plain text around it. tabIndex keeps it focusable
+          // (and therefore still reachable/openable by keyboard) despite
+          // giving up the native button semantics.
+          render={<span tabIndex={0} />}
           className="cursor-help font-semibold text-primary underline decoration-primary/40 decoration-dashed underline-offset-4 transition-colors hover:decoration-primary"
           onClick={(e) => {
             e.preventDefault();
