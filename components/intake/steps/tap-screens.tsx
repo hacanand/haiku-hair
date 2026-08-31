@@ -3,7 +3,6 @@
 import { TapChoiceStep } from "@/components/intake/tap-choice-step";
 import { YesNoStep } from "@/components/intake/yes-no-step";
 import { StepShell } from "@/components/intake/step-shell";
-import { Button } from "@/components/ui/button";
 import { ContinueButton } from "@/components/intake/continue-button";
 import { RippleButton } from "@/components/intake/ripple";
 import { cn } from "@/lib/utils";

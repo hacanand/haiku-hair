@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Check, ChevronRight, Copy, ShieldCheck } from "lucide-react";
 import { StepShell } from "@/components/intake/step-shell";
 import { Button } from "@/components/ui/button";
+import { ContinueButton } from "@/components/intake/continue-button";
 import { cn } from "@/lib/utils";
 import { useIntakeStore } from "@/lib/store";
 import {
@@ -71,17 +72,15 @@ export function ReviewStep() {
       image={{ src: "https://ucarecdn.com/078dd1af-8812-40e4-920d-f86917482540/-/preview/", alt: "Review answers" }}
       hideMobileImage={true}
       footer={
-        <Button
-          size="lg"
-          disabled={answers.consent !== "Yes"}
-          className="h-14 w-full rounded-full text-base"
-          onClick={() => {
+        <ContinueButton
+          incomplete={answers.consent !== "Yes"}
+          label="Submit intake"
+          nudgeMessage="Consent is still needed — tap the Sample & consent section above to fix it."
+          onContinue={() => {
             toast.success("Intake submitted — see you at the clinic!");
             goNext();
           }}
-        >
-          Submit intake
-        </Button>
+        />
       }
     >
       <div className="mb-4 flex gap-1 rounded-full bg-muted p-1">
