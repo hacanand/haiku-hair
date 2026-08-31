@@ -147,12 +147,21 @@ export function TableRowsStep({
       {primaryVal === true && (
         <div
           key={`extra-fields-${row}`}
-          // No auto-scroll here (there was one) — the title above is
-          // already sticky, so it never needs one: forcing a scroll on top
-          // of that just dragged the Yes/No buttons up under the sticky
-          // title mid-animation, which is the half-cut-off pill glitch this
-          // replaces. Letting the reveal sit in normal flow is both simpler
-          // and doesn't fight the positioning that's already pinned.
+          ref={(el) => {
+            if (!el || el.dataset.scrolled) return;
+            el.dataset.scrolled = "true";
+            // Wait for the fade-up entrance animation to finish (it's
+            // 380ms) before scrolling — smooth-scrolling toward an element
+            // that's still animating its own position is what produced the
+            // half-cut-off-pill glitch the last attempt at this ran into.
+            // block:"nearest" only scrolls the minimum needed to bring the
+            // card fully into view, so if it's already visible (a short
+            // Yes/No-only field set on a tall screen) this is a no-op
+            // rather than an unnecessary jump.
+            window.setTimeout(() => {
+              el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }, 400);
+          }}
           className="mt-6 flex flex-col gap-6 rounded-[2rem] bg-card/60 p-6 backdrop-blur-xl animate-fade-up shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20"
         >
           {extraFields.map((field) => {
