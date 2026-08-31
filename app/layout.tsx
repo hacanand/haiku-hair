@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Follows the device's own light/dark setting — most phones already
             switch to dark automatically in low light, or the patient has it
             on by choice; forcing light regardless was fighting that. */}
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <TooltipProvider delay={200}>
             <ThemeToggle />
             {children}
