@@ -8,6 +8,7 @@ import { AssistantBubble, PatientBubble, TypingBubble } from "@/components/intak
 import { ExtractedField } from "@/components/intake/extracted-field";
 import { PastTreatmentChip } from "@/components/intake/past-treatment-chip";
 import { Button } from "@/components/ui/button";
+import { ContinueButton } from "@/components/intake/continue-button";
 import { Textarea } from "@/components/ui/textarea";
 import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
 import { useSpeaker } from "@/hooks/use-speaker";
@@ -173,9 +174,11 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
       title={beat.title}
       image={beat.heroImage ? { src: beat.heroImage, alt: beat.title } : undefined}
       footer={
-        <Button size="lg" disabled={!canContinue} className="h-14 w-full rounded-full text-base" onClick={handleContinue}>
-          Continue
-        </Button>
+        <ContinueButton
+          incomplete={!canContinue}
+          onContinue={handleContinue}
+          nudgeMessage="Please answer by speaking or typing first."
+        />
       }
     >
       {/* The thread: copilot asks, patient answers, chips confirm — reads as
