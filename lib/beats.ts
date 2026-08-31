@@ -44,6 +44,20 @@ export interface Beat {
   heroImage?: string;
 }
 
+// Gender pre-fill signal for the sex-gate screen, which immediately follows
+// Beat A (see STEP_ORDER in lib/steps.ts) — so Beat A is the only beat that
+// runs early enough for this to be useful, and the only one wired up below.
+const LIKELY_SEX_PROMPT_SUFFIX =
+  ' Separately, set likely_sex ONLY if the patient\'s own words contain an unambiguous self-referential cue to their own sex — e.g. a Hindi verb/adjective that grammatically agrees with a first-person subject ("pareshaan tha" vs "pareshaan thi"), or an explicit statement like "main ek mahila hoon"/"main aadmi hoon". Do not infer it from topic, tone, name, or any indirect cue — if there\'s no clear grammatical or explicit self-reference, set it to null. This is a low-stakes pre-fill the patient always confirms afterward, but a wrong guess is worse than no guess, so default to null whenever uncertain.';
+
+const LIKELY_SEX_SCHEMA_PROPERTY = {
+  likely_sex: {
+    type: ["string", "null"],
+    enum: ["female", "male", null],
+    description: "Only set from a clear grammatical/self-referential cue in the patient's own words — null otherwise.",
+  },
+} as const;
+
 export const BEAT_A: Beat = {
   id: "A",
   title: "Hair story",
@@ -52,7 +66,8 @@ export const BEAT_A: Beat = {
   audioSrc: "https://ucarecdn.com/333ecee6-41a9-4adb-a386-ea52ca468a81/beat-a.wav",
   heroImage: "https://ucarecdn.com/9c236ffc-f5f4-43c8-9eb6-c4d12828ac1a/-/preview/",
   systemPrompt:
-    "The patient is answering: when did hair loss begin (age), how long has it been going on, and whether anyone in their family (father/mother/siblings) has had hair loss. They may also casually mention the shape/pattern of their hair loss (receding hairline, crown thinning, widening part, diffuse thinning, patchy loss, sudden shedding) — capture it only if actually said, never guess it from other context.",
+    "The patient is answering: when did hair loss begin (age), how long has it been going on, and whether anyone in their family (father/mother/siblings) has had hair loss. They may also casually mention the shape/pattern of their hair loss (receding hairline, crown thinning, widening part, diffuse thinning, patchy loss, sudden shedding) — capture it only if actually said, never guess it from other context." +
+    LIKELY_SEX_PROMPT_SUFFIX,
   jsonSchema: {
     type: "object",
     additionalProperties: false,
@@ -61,8 +76,9 @@ export const BEAT_A: Beat = {
       duration: { type: ["string", "null"], enum: [...DURATION_OPTIONS, null] },
       family_history: { type: "array", items: { type: "string", enum: [...FAMILY_OPTIONS] } },
       pattern: { type: "array", items: { type: "string", enum: [...PATTERN_OPTIONS] } },
+      ...LIKELY_SEX_SCHEMA_PROPERTY,
     },
-    required: ["age_hair_loss_began", "duration", "family_history", "pattern"],
+    required: ["age_hair_loss_began", "duration", "family_history", "pattern", "likely_sex"],
   },
   fields: [
     { key: "age_hair_loss_began", label: "Age it began", kind: "number" },

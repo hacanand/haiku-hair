@@ -68,6 +68,7 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
   const speaker = useSpeaker(beat.audioSrc, beat.promptText);
   const answers = useIntakeStore((s) => s.answers);
   const applyBeatResult = useIntakeStore((s) => s.applyBeatResult);
+  const setDetectedSex = useIntakeStore((s) => s.setDetectedSex);
   const setField = useIntakeStore((s) => s.setField);
   const setHabitField = useIntakeStore((s) => s.setHabitField);
   const goNext = useIntakeStore((s) => s.goNext);
@@ -102,8 +103,14 @@ export function VoiceBeatStep({ beat }: { beat: Beat }) {
         body: JSON.stringify({ beatId: beat.id, transcript: text }),
       });
       if (!res.ok) throw new Error("extract failed");
-      const { result } = await res.json();
+      const { result, likely_sex } = await res.json();
       applyBeatResult(beat, result);
+      // Beat A only — a same-turn pre-fill for the sex-gate screen coming
+      // up next, from a clear self-referential cue in what the patient
+      // just said (never mixed into the chip fields above; see the API
+      // route). setDetectedSex itself refuses to overwrite an already
+      // -confirmed answer, so this is always safe to call.
+      if (likely_sex) setDetectedSex(likely_sex);
       setPhase("confirm");
     } catch {
       toast.error("Samajh nahi paaye — please try again ya type kar dein.");

@@ -17,11 +17,12 @@ import {
   MISC_IMAGES,
 } from "@/lib/schema";
 import type { Sex } from "@/lib/schema";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Sparkles } from "lucide-react";
 
 export function SexGateStep() {
   const sex = useIntakeStore((s) => s.answers.sex);
-  const setField = useIntakeStore((s) => s.setField);
+  const sexSource = useIntakeStore((s) => s.sexSource);
+  const setSex = useIntakeStore((s) => s.setSex);
   const goNext = useIntakeStore((s) => s.goNext);
 
   const options: { value: Sex; label: string }[] = [
@@ -38,11 +39,21 @@ export function SexGateStep() {
       subtitle="A couple of the next questions only apply to female patients — this just makes sure we don't ask you anything that doesn't apply."
       footer={<ContinueButton incomplete={!sex} onContinue={goNext} nudgeMessage="Please pick one to continue." />}
     >
+      {/* Only shown for a not-yet-confirmed speech pre-fill (setDetectedSex) —
+          tapping any card below switches to setSex, which clears sexSource
+          to "manual" and this banner disappears for good, whether or not
+          they kept the same option. Never presented as a done deal. */}
+      {sexSource === "detected" && (
+        <div className="mb-4 flex items-start gap-2.5 rounded-2xl border border-primary/25 bg-secondary/60 px-4 py-3 text-sm text-secondary-foreground">
+          <Sparkles className="mt-0.5 size-4 shrink-0 text-primary" />
+          <p>Based on what you told us just now, we&apos;ve pre-selected one below — please confirm it&apos;s right, or pick another.</p>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2">
         {options.map((opt) => (
           <RippleButton
             key={opt.value}
-            onClick={() => setField("sex", opt.value)}
+            onClick={() => setSex(opt.value)}
             className={cn(
               "flex min-h-14 items-center rounded-2xl border px-4 py-3 text-left text-base font-medium transition-colors",
               sex === opt.value ? "border-primary bg-secondary elevation-1" : "border-border bg-card hover:border-primary/30"

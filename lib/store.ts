@@ -7,6 +7,7 @@ import {
   type IntakeState,
   type ProductAnswer,
   type ProcedureAnswer,
+  type Sex,
 } from "@/lib/schema";
 import { STEP_ORDER, nextStep, prevStep, type StepId } from "@/lib/steps";
 import type { Beat } from "@/lib/beats";
@@ -16,6 +17,12 @@ interface IntakeStore {
   hasHydrated: boolean;
   answers: IntakeState;
   visitedBeats: Record<string, boolean>;
+  /** "detected": pre-filled from Beat A's speech, not yet confirmed by a tap
+   *  on the sex-gate screen — that's the only state that shows the "please
+   *  confirm" hint. "manual": the patient has tapped a card themselves
+   *  (whether or not it matches what was detected), which is the only thing
+   *  that actually counts as a real answer for anything gender-gated. */
+  sexSource: "detected" | "manual" | null;
   /** When true, the next goNext() returns to the review screen instead of
    *  advancing linearly — set when a review-screen edit jumps back into the flow. */
   returnToReview: boolean;
@@ -24,6 +31,14 @@ interface IntakeStore {
   setHabitField: <K extends keyof IntakeState["habits"]>(key: K, value: IntakeState["habits"][K]) => void;
   setProductField: (row: string, field: keyof ProductAnswer, value: ProductAnswer[keyof ProductAnswer]) => void;
   setProcedureField: (row: string, field: keyof ProcedureAnswer, value: ProcedureAnswer[keyof ProcedureAnswer]) => void;
+
+  /** The patient tapping a card on the sex-gate screen — the only path that
+   *  counts as a confirmed answer. */
+  setSex: (value: Sex) => void;
+  /** Beat A's speech-derived pre-fill. Never overrides a value the patient
+   *  already confirmed themselves (setSex), so re-running/editing Beat A
+   *  after the sex-gate step can't quietly change a real answer. */
+  setDetectedSex: (value: "female" | "male") => void;
 
   /** Merges a voice beat's extracted JSON into answers, keyed by field.key. */
   applyBeatResult: (beat: Beat, result: Record<string, unknown>) => void;
@@ -42,6 +57,7 @@ export const useIntakeStore = create<IntakeStore>()(
       hasHydrated: false,
       answers: createInitialState(),
       visitedBeats: {},
+      sexSource: null,
       returnToReview: false,
 
       setField: (key, value) =>
@@ -65,6 +81,12 @@ export const useIntakeStore = create<IntakeStore>()(
             procedures: { ...s.answers.procedures, [row]: { ...s.answers.procedures[row], [field]: value } },
           },
         })),
+
+      setSex: (value) =>
+        set((s) => ({ answers: { ...s.answers, sex: value }, sexSource: "manual" })),
+
+      setDetectedSex: (value) =>
+        set((s) => (s.answers.sex != null ? s : { answers: { ...s.answers, sex: value }, sexSource: "detected" })),
 
       applyBeatResult: (beat, result) =>
         set((s) => {
@@ -101,13 +123,13 @@ export const useIntakeStore = create<IntakeStore>()(
             : { step: prevStep(s.step, s.answers) }
         ),
       goTo: (step, opts) => set({ step, returnToReview: !!opts?.forReview }),
-      reset: () => set({ step: STEP_ORDER[0], answers: createInitialState(), visitedBeats: {}, returnToReview: false }),
+      reset: () => set({ step: STEP_ORDER[0], answers: createInitialState(), visitedBeats: {}, sexSource: null, returnToReview: false }),
       setHasHydrated: (v) => set({ hasHydrated: v }),
     }),
     {
       name: "genoroot-intake",
       storage: createJSONStorage(() => localStorage),
-      partialize: (s) => ({ step: s.step, answers: s.answers, visitedBeats: s.visitedBeats }),
+      partialize: (s) => ({ step: s.step, answers: s.answers, visitedBeats: s.visitedBeats, sexSource: s.sexSource }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },

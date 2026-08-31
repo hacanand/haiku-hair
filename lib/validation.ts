@@ -131,3 +131,14 @@ export function sanitizeBeatResult(fields: BeatField[], raw: Record<string, unkn
   }
   return out;
 }
+
+const LikelySexSchema = z.enum(["female", "male"]).nullable();
+
+/** Beat A only: a same-defense-in-depth check on the gender pre-fill signal
+ *  (see beats.ts) — anything that isn't exactly "female"/"male"/null
+ *  collapses to null, same "a wrong guess is worse than no guess" rule the
+ *  extraction prompt itself is held to. */
+export function sanitizeLikelySex(raw: unknown): "female" | "male" | null {
+  const parsed = LikelySexSchema.safeParse(raw);
+  return parsed.success ? parsed.data : null;
+}
